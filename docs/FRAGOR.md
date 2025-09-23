@@ -6,60 +6,78 @@ En checklista och diskussionsunderlag för teamet innan vi sätter igång.
 
 ## 📚 Kod & Språk
 
-- Vilket programmeringsspråk använder vi? (TypeScript/JavaScript)
-- Vilket språk ska kodkommentarer vara på? (svenska/engelska)
-- Vilket språk ska commit-meddelanden vara på? (svenska/engelska)
-- Ska variabel- och funktionsnamn vara på engelska eller svenska?
-- Hur detaljerade ska commit-meddelanden vara?
-- Ska vi skriva commit-meddelanden enligt någon specifik konvention? (t.ex. Conventional Commits)
+**Vilket programmeringsspråk använder vi?**
+_TypeScript/JavaScript_
+
+**Vilket språk ska kodkommentarer vara på?**
+_Svenska_
+
+**Vilket språk ska commit-meddelanden vara på?**
+_Svenska_
+
+**Ska variabel- och funktionsnamn vara på engelska eller svenska?**
+_Engelska_
 
 ---
 
 ## 🛠 Branches & Workflow
 
-- Hur ska vi namnge branches? (t.ex. feature/, bugfix/, docs/)
-- Vilken branch är huvudbranch? (main/master)
-- Ska vi alltid göra Pull Requests, även för små saker?
-- Vem granskar kod/PRs – alltid någon annan, eller ibland merge direkt?
+**Hur ska vi namnge branches?**
+_t.ex. feature/, bugfix/, docs/ — Följ det som står._
+
+**Vilken branch är huvudbranch?**
+_Master_
+
+**Ska vi alltid göra Pull Requests, även för små saker?**
+_Vi får ta det vart efter._
+
+**Vem granskar kod/PRs – alltid någon annan, eller ibland merge direkt?**
+_Räcker med en person. Merge kan göras av vem som helst efter det._
 
 ---
 
 ## 🎨 Kodstil & Verktyg
 
-- Ska vi använda kodstilverktyg? (t.ex. Prettier, ESLint, Airbnb-style)
-- Ska vi använda ett UI-bibliotek? (Material UI, Tailwind eller annat)
-- Hur detaljerad ska dokumentationen vara? (README, docs för varje komponent, osv)
-- Behöver varje komponent ha egna kommentarer/dokumentation?
+**Ska vi använda kodstilverktyg?**
+_Prettierr, ESLint (skapa en fil för det)_
 
----
+**Ska vi använda ett UI-bibliotek?**
+_Tailwind_
 
-## ✅ Test & Kvalitet
+**Hur detaljerad ska dokumentationen vara?**
+_(Bestäms senare)_
 
-- Ska vi skriva automatiska tester? (Vilket ramverk – Jest, React Testing Library, annat?)
-- Vilken testnivå är minimum för MVP?
-- Hur testar vi parsing/redigering/export?
+**Behöver varje komponent ha egna kommentarer/dokumentation?**
+_(Bestäms senare)_
 
 ---
 
 ## 🚀 Projektstruktur & Organisation
 
-- Hur ofta ska vi ha avstämningar/sync-möten?
-- Hur/var sparar vi bilder, wireframes, mockups?
-- Vem ansvarar för vilka delar?
-- Hur hanterar vi nya krav eller scope creep?
-- Vilka är “måsten” för MVP, och vad är “nice to have”?
-- Hur prioriterar vi buggar/funktioner?
+**Hur ofta ska vi ha avstämningar/sync-möten?**
+_Daily 09.00–10.00_
+
+**Hur planerar vi arbetet visuellt?**
+_Workflow_
+
+**Vem ansvarar för vilka delar?**
+_(Bestäms senare)_
 
 ---
 
 ## 🗂 Funktionella val
 
-- Vilket tabell-bibliotek ska vi använda? (react-table/material-react-table/Ag-Grid)
-- Hur ska filuppladdning fungera? (drag&drop, knapp, båda)
-- Behövs import av Google Sheet, eller bara export?
-- Hur ska användarflödet se ut? (skiss/mockup)
-- Hur validerar vi fil och data?
-- Vilka avancerade funktioner vill vi ha om tid finns?
+**Vilket tabell-bibliotek ska vi använda?**
+_(Vi kollar och återkommer)_
+
+**Hur ska filuppladdning fungera?**
+_Knapp till att börja med._
+
+**Hur ska användarflödet se ut?**
+_Flödesschema och en visuell skiss/layout._
+
+**Vilka avancerade funktioner vill vi ha om tid finns?**
+_Drag and Drop (DnD)_
 
 ---
 
