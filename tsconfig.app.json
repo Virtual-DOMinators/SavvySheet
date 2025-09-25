@@ -27,8 +27,9 @@
     /* Aliases */
     "baseUrl": "./src",
     "paths": {
-      "@styles/*": ["styles/*"],
-      "@src/*": ["*"]
+      "@styles": ["styles"],
+      "@components": ["Components"],
+      "@src": ["."]
     }
   },
   "include": ["src"]

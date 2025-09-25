@@ -1,14 +1,8 @@
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  resolve: {
-    alias: {
-      '@styles': path.resolve(__dirname, 'src/styles'),
-      '@src': path.resolve(__dirname, 'src'),
-    },
-  },
+  plugins: [react(), tailwindcss(), tsconfigPaths()],
 });
