@@ -27,10 +27,9 @@
     /* Aliases */
     "baseUrl": "./src",
     "paths": {
-      "@styles/*": ["styles/*"],
-      "@src/*": ["*"],
-      "@components/*": ["Components/*"],
-      "@components": ["Components/index"]
+      "@styles": ["styles"],
+      "@components": ["Components"],
+      "@src": ["."]
     }
   },
   "include": ["src"]
