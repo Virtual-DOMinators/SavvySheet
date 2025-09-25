@@ -1,4 +1,3 @@
-import './styles/App.css';
 import { EditableTable, ExportButton } from '@components';
 import type { ExportColumn } from '@components';
 
