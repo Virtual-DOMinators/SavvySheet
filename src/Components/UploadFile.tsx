@@ -6,7 +6,7 @@ type RowData = {
 };
 
 interface UploadFileProps {
-  onDataParsed: (data: RowData[]) => void;
+  onDataParsed: (data: RowData[], fileName: string) => void;
 }
 
 const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
@@ -23,7 +23,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
 
       const jsonData: RowData[] = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
 
-      onDataParsed(jsonData);
+      onDataParsed(jsonData, file.name);
     };
     reader.readAsArrayBuffer(file);
   };
