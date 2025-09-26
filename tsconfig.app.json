@@ -29,7 +29,8 @@
     "paths": {
       "@styles": ["styles"],
       "@components": ["Components"],
-      "@src": ["."]
+      "@src": ["."],
+      "@exportbutton": ["Components/ExportButton"]
     }
   },
   "include": ["src"]
