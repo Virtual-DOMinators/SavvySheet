@@ -1,8 +1,7 @@
 import { EditableTable, ExportButton, Header } from '@components';
 import UploadFile from 'Components/UploadFile';
 import type { ExportColumn } from '@components';
-import { useState, useEffect } from 'react';
-import * as XLSX from 'xlsx';
+import { useState } from 'react';
 
 type ExcelRow = { [key: string]: string | number | boolean | null };
 
@@ -18,25 +17,6 @@ function App() {
       setColumns(keys.map((key) => ({ field: key, headerName: key })));
     }
   };
-
-  useEffect(() => {
-    fetch('/Files/placeholder.xlsx')
-      .then((res) => res.arrayBuffer())
-      .then((buffer) => {
-        const workbook = XLSX.read(buffer, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData: ExcelRow[] = XLSX.utils.sheet_to_json(worksheet);
-
-        setData(jsonData);
-
-        if (jsonData.length > 0) {
-          const keys = Object.keys(jsonData[0]);
-          setColumns(keys.map((key) => ({ field: key, headerName: key })));
-        }
-      })
-      .catch((err) => console.error('Fel vid laddning ac Excel-fil', err));
-  }, []);
 
   return (
     <div>
