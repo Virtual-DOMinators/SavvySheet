@@ -1,4 +1,5 @@
-import { EditableTable, ExportButton, Header } from '@components';
+import { EditableTable, Header } from '@components';
+import { ExportButton } from '@exportbutton';
 import UploadFile from 'Components/UploadFile';
 import type { ExportColumn } from '@components';
 import { useState } from 'react';
