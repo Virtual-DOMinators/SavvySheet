@@ -18,7 +18,7 @@ export default function Homepage() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-white shadow-sm p-6">
-        <h1 className="text-2xl font-bold text-center">Excel till PDF Converter</h1>
+        <h1 className="text-2xl font-bold text-center">SavvySheet</h1>
       </header>
 
       {/* Main Content */}
