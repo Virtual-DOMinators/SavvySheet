@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import '../styles/App.css';
 import { Header } from '@components';
+import Footer from 'Components/Footer';
+import Instructions from 'Components/Instructions';
 
 export default function Homepage() {
   const [data, setData] = useState([]);
@@ -68,25 +70,11 @@ export default function Homepage() {
         )}
 
         {/* Instructions */}
-        {data.length === 0 && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold mb-4">Instruktioner</h2>
-            <ol className="list-decimal list-inside space-y-2">
-              <li>Välj en Excel-fil (.xlsx)</li>
-              <li>Redigera data i tabellen</li>
-              <li>Klicka "Exportera PDF"</li>
-            </ol>
-          </div>
-        )}
+        {data.length === 0 && <Instructions></Instructions>}
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white p-6 mt-auto">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="mb-2">Excel till PDF Converter</p>
-          <p className="text-sm text-gray-400">Byggt med React | © 2025</p>
-        </div>
-      </footer>
+      <Footer></Footer>
     </div>
   );
 }
