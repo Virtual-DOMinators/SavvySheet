@@ -1,5 +1,6 @@
 import { EditableTable, ExportButton } from '@components';
 import type { ExportColumn } from '@components';
+import Homepage from '../src/pages/Homepage';
 
 // Define the row type for clarity and correct typing
 interface IRow {
@@ -36,6 +37,7 @@ function App() {
       <h1>Bil-tabell</h1>
       <EditableTable data={initialData} dataOnChange={handleDataChange} />
       <ExportButton<IRow> data={initialData} columns={exportColumns} filename="bilar-export.pdf" />
+      <Homepage></Homepage>
     </div>
   );
 }
