@@ -1,4 +1,4 @@
-import { EditableTable, ExportButton } from '@components';
+import { EditableTable, ExportButton, Header } from '@components';
 import type { ExportColumn } from '@components';
 import { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
@@ -30,7 +30,7 @@ function App() {
 
   return (
     <div>
-      <h1>Savvy Sheet</h1>
+      <Header />
       <EditableTable
         data={data as { [key: string]: unknown }[]}
         dataOnChange={setData as (newData: { [key: string]: unknown }[]) => void}
