@@ -1,14 +1,6 @@
-import { EditableTable, ExportButton, Header } from '@components';
 import type { ExportColumn } from '@components';
-import Homepage from '../src/pages/Homepage';
-
-// Define the row type for clarity and correct typing
-interface IRow {
-  make: string;
-  model: string;
-  price: number;
-  electric: boolean;
-}
+import Homepage from './pages/Home';
+import type { IRow } from 'models/IRow';
 
 const initialData: IRow[] = [
   { make: 'Tesla', model: 'Model Y', price: 64950, electric: true },
@@ -34,11 +26,12 @@ function App() {
 
   return (
     <div>
-      <Header />
       <h1>Bil-tabell</h1>
-      <EditableTable data={initialData} dataOnChange={handleDataChange} />
-      <ExportButton<IRow> data={initialData} columns={exportColumns} filename="bilar-export.pdf" />
-      <Homepage></Homepage>
+      <Homepage
+        handleDataChange={handleDataChange}
+        initialData={initialData}
+        exportColumns={exportColumns}
+      ></Homepage>
     </div>
   );
 }
