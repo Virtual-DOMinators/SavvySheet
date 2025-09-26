@@ -26,7 +26,7 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
   return (
     <div className="ag-theme-alpine" style={{ width: '100%', height: 400 }}>
       {rowData.length === 0 ? (
-        <div className="flex items-center justify-center h-full text-gray-600 italic">
+        <div className="flex items-center justify-center h-full text-gray-600 italic border-2 border-gray-400git">
           Ingen fil uppladdad än!
         </div>
       ) : (
