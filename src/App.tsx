@@ -1,70 +1,52 @@
-import { EditableTable, ExportButton } from '@components';
+import { EditableTable, ExportButton, Header } from '@components';
 import UploadFile from 'Components/UploadFile';
 import type { ExportColumn } from '@components';
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
+import * as XLSX from 'xlsx';
 
-// Define the row type for clarity and correct typing
-// interface IRow {
-//   make: string;
-//   model: string;
-//   price: number;
-//   electric: boolean;
-// }
-
-// const initialData: IRow[] = [
-//   { make: 'Tesla', model: 'Model Y', price: 64950, electric: true },
-//   { make: 'Ford', model: 'F-Series', price: 33850, electric: false },
-//   { make: 'Toyota', model: 'Corolla', price: 29600, electric: false },
-//   { make: 'Mercedes', model: 'EQA', price: 48890, electric: true },
-//   { make: 'Fiat', model: '500', price: 15774, electric: false },
-//   { make: 'Nissan', model: 'Juke', price: 20675, electric: false },
-// ];
-
-// Correctly typed columns
-// const exportColumns: ExportColumn<IRow>[] = [
-//   { field: 'make', headerName: 'Make' },
-//   { field: 'model', headerName: 'Model' },
-//   { field: 'price', headerName: 'Price' },
-//   { field: 'electric', headerName: 'Electric' },
-// ];
-
-type RowData = {
-  [key: string]: string | number | boolean | null;
-};
+type ExcelRow = { [key: string]: string | number | boolean | null };
 
 function App() {
-  const [tableData, setTableDate] = useState<RowData[]>([]);
+  const [data, setData] = useState<ExcelRow[]>([]);
+  const [columns, setColumns] = useState<ExportColumn<ExcelRow>[]>([]);
 
-  const handleDataChange = (updatedData: RowData[]) => {
-    setTableDate(updatedData);
-    console.log('Uppdaterad data:', updatedData);
+  const handleDataChange = (jsonData: ExcelRow[]) => {
+    setData(jsonData);
+
+    if (jsonData.length > 0) {
+      const keys = Object.keys(jsonData[0]);
+      setColumns(keys.map((key) => ({ field: key, headerName: key })));
+    }
   };
 
-  const exportColumns: ExportColumn<RowData>[] =
-    tableData.length > 0
-      ? Object.keys(tableData[0]).map((key) => ({
-          field: key,
-          headerName: key,
-        }))
-      : [];
+  useEffect(() => {
+    fetch('/Files/placeholder.xlsx')
+      .then((res) => res.arrayBuffer())
+      .then((buffer) => {
+        const workbook = XLSX.read(buffer, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData: ExcelRow[] = XLSX.utils.sheet_to_json(worksheet);
+
+        setData(jsonData);
+
+        if (jsonData.length > 0) {
+          const keys = Object.keys(jsonData[0]);
+          setColumns(keys.map((key) => ({ field: key, headerName: key })));
+        }
+      })
+      .catch((err) => console.error('Fel vid laddning ac Excel-fil', err));
+  }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Tabellhanteraren</h1>
+    <div>
+      <Header />
       <UploadFile onDataParsed={handleDataChange} />
-      {tableData.length > 0 && (
-        <>
-          {/* integrera med editabletable */}
-          <EditableTable data={tableData} dataOnChange={handleDataChange} />
-          <div className="mt-4">
-            <ExportButton<RowData>
-              data={tableData}
-              columns={exportColumns}
-              filename="exporterad-tabell.pdf"
-            />
-          </div>
-        </>
-      )}
+      <EditableTable
+        data={data as { [key: string]: unknown }[]}
+        dataOnChange={setData as (newData: { [key: string]: unknown }[]) => void}
+      />
+      <ExportButton data={data} columns={columns} filename="export.pdf" />
     </div>
   );
 }
