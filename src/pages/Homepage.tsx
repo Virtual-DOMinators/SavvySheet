@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../styles/App.css';
+import { Header } from '@components';
 
 export default function Homepage() {
   const [data, setData] = useState([]);
@@ -16,10 +17,7 @@ export default function Homepage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <header className="bg-white shadow-sm p-6">
-        <h1 className="text-2xl font-bold text-center">SavvySheet</h1>
-      </header>
+      <Header></Header>
 
       {/* Main Content */}
       <main className="flex-1 p-6 max-w-6xl mx-auto w-full">
