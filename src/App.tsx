@@ -28,10 +28,6 @@ function App() {
       .catch((err) => console.error('Fel vid laddning ac Excel-fil', err));
   }, []);
 
-  // const handleDataChange = (updatedData: IRow[]) => {
-  //   console.log('Uppdaterad data:', updatedData);
-  // };
-
   return (
     <div>
       <h1>Savvy Sheet</h1>
