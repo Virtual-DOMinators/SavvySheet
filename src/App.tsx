@@ -1,4 +1,4 @@
-import { EditableTable, ExportButton } from '@components';
+import { EditableTable, ExportButton, Header } from '@components';
 import type { ExportColumn } from '@components';
 import Homepage from '../src/pages/Homepage';
 
@@ -34,6 +34,7 @@ function App() {
 
   return (
     <div>
+      <Header />
       <h1>Bil-tabell</h1>
       <EditableTable data={initialData} dataOnChange={handleDataChange} />
       <ExportButton<IRow> data={initialData} columns={exportColumns} filename="bilar-export.pdf" />
