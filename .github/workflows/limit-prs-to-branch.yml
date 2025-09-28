@@ -1,0 +1,45 @@
+name: Limit PRs to one per branch
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  limit-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for open PRs to target branch
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const targetBranch = context.payload.pull_request.base.ref;
+            const prNumber = context.payload.pull_request.number;
+            
+
+            if (targetBranch !== 'dev') return;
+
+
+            const { data: openPRs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              base: targetBranch
+            });
+
+
+            if (openPRs.length > 1) {
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: "Denna PR stängs automatiskt, det finns redan en öppen PR mot 'dev'."
+              });
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                state: "closed"
+              });
+            }
