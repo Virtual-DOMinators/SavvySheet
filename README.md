@@ -4,7 +4,7 @@
 
 En modern webbapp för att ladda upp, redigera och exportera Excel och Google Sheets – allt direkt i webbläsaren!
 
-[💻 Preview/Demo](https://virtual-dominators.github.io/SavvySheet/)
+[💻 Preview](https://virtual-dominators.github.io/SavvySheet/)
 
 ## Skapare
 
