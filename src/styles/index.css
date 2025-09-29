@@ -1,20 +1,22 @@
 @import 'tailwindcss';
 @plugin "daisyui" {
-  themes: all;
+  themes:
+    'light', 'dark', 'cupcake', 'bumblebee', 'emerald', 'corporate', 'synthwave', 'retro',
+    'cyberpunk', 'valentine';
 }
 
 html,
 body {
-  @apply bg-base-100 text-base-content min-h-screen;
+  @apply min-h-screen;
 }
 
 * {
-  @apply transition-colors duration-200;
+  @apply transition-colors;
 }
 
 header {
   @apply flex items-center p-4 justify-between;
-  border: 3px solid;
+  border-bottom: 3px solid;
 }
 
 header img {
