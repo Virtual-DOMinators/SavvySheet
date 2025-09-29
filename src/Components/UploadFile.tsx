@@ -6,7 +6,7 @@ type RowData = {
 };
 
 interface UploadFileProps {
-  onDataParsed: (data: RowData[], fileName: string) => void;
+  onDataParsed: (data: { [sheetName: string]: RowData[] }, fileName: string) => void;
 }
 
 const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
@@ -18,12 +18,15 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
       const data = new Uint8Array(event.target?.result as ArrayBuffer);
       const workbook = XLSX.read(data, { type: 'array' });
 
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
+      const allSheets: { [sheetName: string]: RowData[] } = {};
 
-      const jsonData: RowData[] = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+      workbook.SheetNames.forEach((sheetName) => {
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData: RowData[] = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+        allSheets[sheetName] = jsonData;
+      });
 
-      onDataParsed(jsonData, file.name);
+      onDataParsed(allSheets, file.name);
     };
     reader.readAsArrayBuffer(file);
   };
@@ -39,10 +42,10 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
   return (
     <div className="my-4">
       <div
-        className="border-2 border-gray-400 p-6 rounded-md text-center cursor-pointer hover:bg-gray-50"
+        className="border-2 border-gray-400 p-6 rounded-md text-center text-gray-400 cursor-pointer hover:bg-gray-50"
         onClick={() => fileInputRef.current?.click()}
       >
-        <p className="text-gray-600">Importera en .xlsx-fil</p>
+        <p className="text-gray-500">Importera en .xlsx-fil</p>
       </div>
       <input
         ref={fileInputRef}
