@@ -1,8 +1,8 @@
-import { EditableTable, Header } from '@components';
+import { EditableTable, Header, UploadFile } from '@components';
 import { ExportButton } from '@exportbutton';
-import UploadFile from 'Components/UploadFile';
+import { useLocalSheet } from '@hooks';
 import type { ExportColumn } from '@components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type ExcelRow = { [key: string]: string | number | boolean | null };
 
@@ -11,13 +11,16 @@ function App() {
   const [columns, setColumns] = useState<ExportColumn<ExcelRow>[]>([]);
   const [filename, setFilename] = useState<string | undefined>(undefined);
 
-  const handleDataChange = (jsonData: ExcelRow[]) => {
-    setData(jsonData);
-    if (jsonData.length > 0) {
-      const keys = Object.keys(jsonData[0]);
+  // Spara/ladda data + filnamn med localStorage
+  useLocalSheet(data, setData, filename, setFilename);
+
+  // Sätt kolumner automatiskt när data ändras
+  useEffect(() => {
+    if (data.length > 0) {
+      const keys = Object.keys(data[0]);
       setColumns(keys.map((key) => ({ field: key, headerName: key })));
     }
-  };
+  }, [data]);
 
   return (
     <div>
@@ -25,7 +28,6 @@ function App() {
       <UploadFile
         onDataParsed={(parsedData, fileName) => {
           setData(parsedData);
-          handleDataChange(parsedData);
           setFilename(fileName);
         }}
       />
