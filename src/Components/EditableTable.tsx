@@ -46,7 +46,7 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
   return (
     <div style={{ width: '100%', height: 400 }}>
       {data.length === 0 ? (
-        <div className="flex items-center justify-center h-full text-gray-600 italic border-2 border-gray-400">
+        <div className="flex items-center justify-center h-full rounded-md text-gray-600 italic border-2 border-gray-400">
           Ingen fil uppladdad än!
         </div>
       ) : (
