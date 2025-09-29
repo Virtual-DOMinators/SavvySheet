@@ -26,7 +26,7 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
   return (
     <div className="ag-theme-quartz" style={{ width: '100%', height: 400 }}>
       {rowData.length === 0 ? (
-        <div className="flex items-center justify-center h-full text-gray-600 italic border-2 border-gray-400git">
+        <div className="flex items-center justify-center h-full rounded-md text-gray-600 italic border-2 border-gray-400git">
           Ingen fil uppladdad än!
         </div>
       ) : (
@@ -34,9 +34,12 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
           rowData={rowData}
           columnDefs={colDefs}
           onCellValueChanged={(params) => {
-            const updatedData = params.api
-              .getRenderedNodes()
-              .map((n) => n.data as { [key: string]: unknown });
+            // Get all row data from the grid
+            const updatedData: { [key: string]: unknown }[] = [];
+            params.api.forEachNode((node) => {
+              updatedData.push({ ...node.data });
+            });
+            // Call the save handler
             dataOnChange?.(updatedData);
           }}
         />
