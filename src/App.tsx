@@ -63,9 +63,11 @@ function App() {
       )}
 
       <ExportButton
-        data={data}
-        columns={columns[sheetName] || []}
-        originalFileName={`${filename || 'export'} - ${sheetName}`}
+        data={Object.entries(sheets).flatMap(([sheetName, rows]) =>
+          rows.map((row) => ({ SheetName: sheetName, ...row })),
+        )}
+        columns={Object.values(columns).flat()}
+        originalFileName={filename}
       />
     </div>
   );

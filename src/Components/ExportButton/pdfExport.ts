@@ -9,18 +9,41 @@ export function getPdfFilename(originalFileName?: string): string {
   return `${basename}-savvysheet.pdf`;
 }
 
-export function generatePDF<T extends object>(data: T[], columns: ExportColumn<T>[]) {
+export function generatePDF<T extends Record<string, unknown> & { SheetName?: string }>(
+  data: T[],
+  _columns: ExportColumn<T>[],
+) {
   const doc = new jsPDF();
-  const head = [columns.map((col) => col.headerName || String(col.field))];
-  const body: (string | number)[][] = data.map((row) =>
-    columns.map((col) => {
-      const value = row[col.field];
-      if (typeof value === 'boolean') return value ? 'Yes' : 'No';
-      if (typeof value === 'number' || typeof value === 'string') return value;
-      if (value === null || value === undefined) return '';
-      return String(value);
-    }),
-  );
-  autoTable(doc, { head, body });
+
+  const grouped: Record<string, T[]> = {};
+  data.forEach((row) => {
+    const sheet = row.SheetName || 'Sheet';
+    if (!grouped[sheet]) grouped[sheet] = [];
+    grouped[sheet].push(row);
+  });
+
+  let first = true;
+  Object.entries(grouped).forEach(([sheet, rows]) => {
+    if (!first) doc.addPage();
+    first = false;
+
+    doc.setFontSize(14);
+    doc.text(`${sheet}`, 14, 20);
+
+    const sheetCols = Object.keys(rows[0] || {}).filter((k) => k !== 'SheetName');
+
+    const head = [sheetCols];
+    const body: (string | number)[][] = rows.map((row) =>
+      sheetCols.map((col) => {
+        const value = row[col as keyof typeof row];
+        if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+        if (typeof value === 'number' || typeof value === 'string') return value;
+        if (value === null || value === undefined) return '';
+        return String(value);
+      }),
+    );
+
+    autoTable(doc, { head, body, startY: 30 });
+  });
   return doc;
 }

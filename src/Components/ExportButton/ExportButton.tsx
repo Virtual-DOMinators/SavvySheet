@@ -2,24 +2,28 @@ import { DocumentArrowDownIcon, DocumentMagnifyingGlassIcon } from '@heroicons/r
 import { getPdfFilename, generatePDF } from '@exportbutton';
 import type { ExportColumn } from '@exportbutton';
 
-interface ExportButtonProps<T extends object> {
+interface ExportButtonProps<T extends Record<string, unknown> & { SheetName?: string }> {
   data: T[];
   columns: ExportColumn<T>[];
   originalFileName?: string;
 }
 
-function ExportButton<T extends object>({ data, columns, originalFileName }: ExportButtonProps<T>) {
+function ExportButton<T extends Record<string, unknown> & { SheetName?: string }>({
+  data,
+  columns,
+  originalFileName,
+}: ExportButtonProps<T>) {
   if (!data || data.length === 0) return null;
 
   const pdfFilename = getPdfFilename(originalFileName);
 
   const handleDownload = () => {
-    const doc = generatePDF(data, columns);
+    const doc = generatePDF(data as (T & { SheetName?: string })[], columns);
     doc.save(pdfFilename);
   };
 
   const handleShow = () => {
-    const doc = generatePDF(data, columns);
+    const doc = generatePDF(data as (T & { SheetName?: string })[], columns);
     window.open(doc.output('bloburl'), '_blank');
   };
 
