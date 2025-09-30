@@ -1,7 +1,7 @@
 const Header = () => {
   return (
     <header>
-      <img src="logo.png" alt="Logo" />
+      <img src="logo.webp" alt="Logo" />
       <h1>SavvySheet</h1>
     </header>
   );
