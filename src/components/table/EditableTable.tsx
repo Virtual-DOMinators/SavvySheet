@@ -2,31 +2,16 @@ import { useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import type { ColDef, GridApi } from 'ag-grid-community';
 import { AllCommunityModule, ModuleRegistry, themeAlpine } from 'ag-grid-community';
+import { isEqual, getColumnDefs } from '@components/table';
+import type { EditableTableProps } from '@components/table';
+
 ModuleRegistry.registerModules([AllCommunityModule]);
-
-interface EditableTableProps {
-  data: { [key: string]: unknown }[];
-  dataOnChange?: (newData: { [key: string]: unknown }[]) => void;
-}
-
-function isEqual(a: unknown[], b: unknown[]) {
-  return JSON.stringify(a) === JSON.stringify(b);
-}
 
 const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => {
   const gridApiRef = useRef<GridApi | null>(null);
   const lastSavedDataRef = useRef<{ [key: string]: unknown }[]>(data);
 
-  const colDefs: ColDef[] =
-    data.length > 0
-      ? Object.keys(data[0]).map((key) => ({
-          field: key,
-          editable: true,
-          flex: 1,
-          sortable: true,
-          filter: true,
-        }))
-      : [];
+  const colDefs: ColDef[] = getColumnDefs(data);
 
   const saveData = () => {
     if (!gridApiRef.current) return;

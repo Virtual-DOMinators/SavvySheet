@@ -1,51 +1,27 @@
-import { EditableTable, Header, UploadFile } from '@components';
-import { ExportButton } from '@exportbutton';
-import { useLocalSheet } from '@hooks';
-import type { ExportColumn } from '@components';
-import { useState, useEffect } from 'react';
-
-type ExcelRow = {
-  [key: string]: string | number | boolean | null;
-};
-
-type SheetData = {
-  [sheetName: string]: ExcelRow[];
-};
+import { useState } from 'react';
+import { EditableTable } from '@components/table';
+import { Header } from '@components/layout';
+import { UploadFile } from '@components/upload';
+import { ExportButton } from '@components/export';
+import { useLocalSheet, useSheetColumns } from '@hooks';
+import type { ExcelRow, SheetData } from '@types';
 
 function App() {
   const [sheets, setSheets] = useState<SheetData>({});
-  const [columns, setColumns] = useState<{ [sheetName: string]: ExportColumn<ExcelRow>[] }>({});
-  const [filename, setFilename] = useState<string | undefined>(undefined);
-
-  // Spara/ladda sheets + filnamn med localStorage
+  const [filename, setFilename] = useState<string | undefined>();
   useLocalSheet(sheets, setSheets, filename, setFilename);
 
-  // Sätt kolumner automatiskt när sheets ändras
-  useEffect(() => {
-    const newColumns: { [sheetName: string]: ExportColumn<ExcelRow>[] } = {};
+  const columns = useSheetColumns(sheets);
 
-    Object.entries(sheets).forEach(([sheetName, data]) => {
-      if (data.length > 0) {
-        const keys = Object.keys(data[0]);
-        newColumns[sheetName] = keys.map((key) => ({
-          field: key,
-          headerName: key,
-        }));
-      }
-    });
-
-    setColumns(newColumns);
-  }, [sheets]);
+  const handleDataParsed = (parsedSheets: SheetData, fileName: string) => {
+    setSheets(parsedSheets);
+    setFilename(fileName);
+  };
 
   return (
-    <div className="m-2">
+    <div className="m-2 max-w-3xl mx-auto">
       <Header />
-      <UploadFile
-        onDataParsed={(parsedSheets, fileName) => {
-          setSheets(parsedSheets);
-          setFilename(fileName);
-        }}
-      />
+      <UploadFile onDataParsed={handleDataParsed} />
       {Object.entries(sheets).length === 0 ? (
         <div className="text-center text-gray-500 mt-10">Ingen fil uppladdad ännu.</div>
       ) : (
@@ -61,7 +37,6 @@ function App() {
           </div>
         ))
       )}
-
       <ExportButton
         data={Object.entries(sheets).flatMap(([sheetName, rows]) =>
           rows.map((row) => ({ SheetName: sheetName, ...row })),

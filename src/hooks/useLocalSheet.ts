@@ -1,5 +1,16 @@
 import { useEffect, useRef } from 'react';
 
+/**
+ * Custom hook för att spara och ladda sheets-data till localStorage.
+ * Hanterar både array och objekt-format samt filnamn.
+ *
+ * @param sheetData      - Datan som ska sparas (array eller objekt)
+ * @param setSheetData   - Setter för datan
+ * @param filename       - Filnamn (valfritt)
+ * @param setFilename    - Setter för filnamn (valfritt)
+ * @param key            - LocalStorage-nyckel för datan
+ * @param filenameKey    - LocalStorage-nyckel för filnamn
+ */
 function useLocalSheet<T>(
   sheetData: T,
   setSheetData: (d: T) => void,
