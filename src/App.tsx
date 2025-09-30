@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { EditableTable } from '@components/table';
 import { Header } from '@components/layout';
 import { UploadFile } from '@components/upload';
-import { ExportButton } from '@components/export';
 import { useLocalSheet, useSheetColumns } from '@hooks';
 import type { ExcelRow, SheetData } from '@types';
+import { ExportToolbar } from '@components/export';
+import { SheetView, SheetNavigation } from '@components/table';
 
 function App() {
   const [sheets, setSheets] = useState<SheetData>({});
@@ -34,44 +34,29 @@ function App() {
           <div className="text-center text-gray-500 mt-10">Ingen fil uppladdad ännu.</div>
         ) : (
           <>
-            <ExportButton
-              data={sheetNames.flatMap((sheetName) =>
-                sheets[sheetName].map((row) => ({ SheetName: sheetName, ...row })),
-              )}
+            <ExportToolbar
+              sheets={sheets}
               columns={Object.values(columns).flat()}
-              originalFileName={filename}
+              filename={filename}
             />
-
-            <div className="pt-2">
-              <h2 className="text-xl font-bold mb-2">{sheetNames[currentSheetIdx]}</h2>
-              <EditableTable
-                data={sheets[sheetNames[currentSheetIdx]]}
-                dataOnChange={(newData) =>
-                  setSheets((prev) => ({
-                    ...prev,
-                    [sheetNames[currentSheetIdx]]: newData as ExcelRow[],
-                  }))
-                }
+            <SheetView
+              sheetName={sheetNames[currentSheetIdx]}
+              data={sheets[sheetNames[currentSheetIdx]]}
+              onDataChange={(newData) =>
+                setSheets((prev) => ({
+                  ...prev,
+                  [sheetNames[currentSheetIdx]]: newData as ExcelRow[],
+                }))
+              }
+            />
+            {sheetNames.length > 1 && (
+              <SheetNavigation
+                currentIdx={currentSheetIdx}
+                maxIdx={sheetNames.length - 1}
+                onPrev={handlePrev}
+                onNext={handleNext}
               />
-              {sheetNames.length > 1 && (
-                <div className="flex gap-4 justify-center mt-4">
-                  <button
-                    onClick={handlePrev}
-                    disabled={currentSheetIdx === 0}
-                    className="btn btn-outline"
-                  >
-                    Föregående
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    disabled={currentSheetIdx === sheetNames.length - 1}
-                    className="btn btn-outline"
-                  >
-                    Nästa
-                  </button>
-                </div>
-              )}
-            </div>
+            )}
           </>
         )}
       </main>

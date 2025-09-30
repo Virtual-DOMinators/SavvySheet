@@ -4,12 +4,13 @@ import type { ColDef, GridApi } from 'ag-grid-community';
 import { AllCommunityModule, ModuleRegistry, themeAlpine } from 'ag-grid-community';
 import { isEqual, getColumnDefs } from '@components/table';
 import type { EditableTableProps } from '@components/table';
+import type { ExcelRow } from '@types';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => {
   const gridApiRef = useRef<GridApi | null>(null);
-  const lastSavedDataRef = useRef<{ [key: string]: unknown }[]>(data);
+  const lastSavedDataRef = useRef<ExcelRow[]>(data);
 
   const colDefs: ColDef[] = getColumnDefs(data);
 
@@ -21,10 +22,28 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
       updatedData.push(node.data);
     });
 
+    // Typa om till ExcelRow[]
+    const typedData: ExcelRow[] = updatedData.map((row) => {
+      const out: ExcelRow = {};
+      Object.entries(row).forEach(([key, value]) => {
+        if (
+          typeof value === 'string' ||
+          typeof value === 'number' ||
+          typeof value === 'boolean' ||
+          value === null
+        ) {
+          out[key] = value;
+        } else {
+          out[key] = String(value);
+        }
+      });
+      return out;
+    });
+
     // Endast spara om datan har ändrats
-    if (!isEqual(updatedData, lastSavedDataRef.current)) {
-      lastSavedDataRef.current = updatedData;
-      dataOnChange?.(updatedData);
+    if (!isEqual(typedData, lastSavedDataRef.current)) {
+      lastSavedDataRef.current = typedData;
+      dataOnChange?.(typedData);
     }
   };
 
@@ -56,7 +75,24 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
               gridApiRef.current.forEachNode((node) => {
                 updatedData.push(node.data);
               });
-              dataOnChange?.(updatedData);
+              // Typa om till ExcelRow[]
+              const typedData: ExcelRow[] = updatedData.map((row) => {
+                const out: ExcelRow = {};
+                Object.entries(row).forEach(([key, value]) => {
+                  if (
+                    typeof value === 'string' ||
+                    typeof value === 'number' ||
+                    typeof value === 'boolean' ||
+                    value === null
+                  ) {
+                    out[key] = value;
+                  } else {
+                    out[key] = String(value);
+                  }
+                });
+                return out;
+              });
+              dataOnChange?.(typedData);
             }}
           />
         </div>
