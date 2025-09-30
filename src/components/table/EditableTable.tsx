@@ -29,13 +29,20 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
   };
 
   return (
-    <div style={{ width: '100%', height: 400 }}>
+    <div className="w-full overflow-x-auto">
       {data.length === 0 ? (
         <div className="flex items-center justify-center h-full rounded-md text-gray-600 italic border-2 border-gray-400">
           Ingen fil uppladdad än!
         </div>
       ) : (
-        <div onMouseLeave={saveData} style={{ width: '100%', height: '100%' }}>
+        <div
+          onMouseLeave={saveData}
+          className="w-full"
+          style={{
+            height: '400px',
+            maxHeight: '80vh',
+          }}
+        >
           <AgGridReact
             rowData={data}
             theme={themeAlpine}
