@@ -55,14 +55,15 @@ function App() {
                 setSheets((prev) => ({ ...prev, [sheetName]: newData as ExcelRow[] }))
               }
             />
-            <ExportButton
-              data={data}
-              columns={columns[sheetName] || []}
-              originalFileName={`${filename || 'export'} - ${sheetName}`}
-            />
           </div>
         ))
       )}
+
+      <ExportButton
+        data={data}
+        columns={columns[sheetName] || []}
+        originalFileName={`${filename || 'export'} - ${sheetName}`}
+      />
     </div>
   );
 }
