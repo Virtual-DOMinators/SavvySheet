@@ -1,10 +1,14 @@
-import { StrictMode } from 'react';
+import React, { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from '@src';
+import { Spinner } from '@components/ui';
 import '@styles';
+
+const App = React.lazy(() => import('./App'));
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Suspense fallback={<Spinner />}>
+      <App />
+    </Suspense>
   </StrictMode>,
 );

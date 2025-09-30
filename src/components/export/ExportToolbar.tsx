@@ -4,11 +4,11 @@ import type { ExportColumn } from '@components/export';
 
 interface ExportToolbarProps {
   sheets: SheetData;
-  columns: ExportColumn<ExcelRow>[]; // <-- Här är rätt typ!
+  columns: ExportColumn<ExcelRow>[];
   filename?: string;
 }
 
-export function ExportToolbar({ sheets, columns, filename }: ExportToolbarProps) {
+function ExportToolbar({ sheets, columns, filename }: ExportToolbarProps) {
   const sheetNames = Object.keys(sheets);
 
   return (
@@ -21,3 +21,5 @@ export function ExportToolbar({ sheets, columns, filename }: ExportToolbarProps)
     />
   );
 }
+
+export default ExportToolbar;

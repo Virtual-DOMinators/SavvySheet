@@ -1,14 +1,27 @@
-import { useRef } from 'react';
-import { parseExcelFile } from '@components/upload';
+import { useRef, useState } from 'react';
+import { Spinner } from '@components/ui';
 import type { UploadFileProps } from '@components/upload';
 
 const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.name.endsWith('.xlsx')) {
-      parseExcelFile(file, onDataParsed);
+    if (!file) return;
+
+    if (file.name.endsWith('.xlsx')) {
+      setLoading(true);
+      try {
+        // Lazy-load parsern först när fil faktiskt väljs
+        const { parseExcelFile } = await import('components/upload/uploadUtils');
+        await parseExcelFile(file, onDataParsed);
+      } catch (error) {
+        console.error('Fel vid parsing av Excel-fil:', error);
+        alert('Kunde inte läsa filen. Kontrollera att det är en giltig .xlsx-fil.');
+      } finally {
+        setLoading(false);
+      }
     } else {
       alert('Endast .xlsx-filer stöds');
     }
@@ -20,7 +33,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
         className="border-2 border-gray-400 p-6 rounded-md text-center text-gray-400 cursor-pointer hover:bg-gray-50"
         onClick={() => fileInputRef.current?.click()}
       >
-        <p className="text-gray-500">Importera en .xlsx-fil</p>
+        {loading ? <Spinner /> : <p className="text-gray-500">Importera en .xlsx-fil</p>}
       </div>
       <input
         ref={fileInputRef}

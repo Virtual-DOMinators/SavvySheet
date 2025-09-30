@@ -5,7 +5,7 @@ interface SheetNavigationProps {
   onNext: () => void;
 }
 
-export function SheetNavigation({ currentIdx, maxIdx, onPrev, onNext }: SheetNavigationProps) {
+function SheetNavigation({ currentIdx, maxIdx, onPrev, onNext }: SheetNavigationProps) {
   return (
     <div className="flex gap-4 justify-center mt-4">
       <button onClick={onPrev} disabled={currentIdx === 0} className="btn btn-outline">
@@ -17,3 +17,5 @@ export function SheetNavigation({ currentIdx, maxIdx, onPrev, onNext }: SheetNav
     </div>
   );
 }
+
+export default SheetNavigation;

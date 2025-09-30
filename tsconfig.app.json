@@ -34,6 +34,7 @@
       "@components/layout": ["components/layout"],
       "@components/table": ["components/table"],
       "@components/upload": ["components/upload"],
+      "@components/ui": ["components/ui"],
       "@hooks": ["hooks"],
       "@types": ["types"]
     }
