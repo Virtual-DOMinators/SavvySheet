@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
 function useLocalSheet<T>(
-  sheetData: T[],
-  setSheetData: (d: T[]) => void,
+  sheetData: T,
+  setSheetData: (d: T) => void,
   filename?: string,
   setFilename?: (f: string) => void,
   key = 'savvySheetData',
@@ -25,10 +25,20 @@ function useLocalSheet<T>(
 
   // Spara till localStorage när data eller filnamn ändras, men INTE första render
   useEffect(() => {
-    // Spara ENDAST om datan INTE är tom!
     if (!hasLoaded.current) return;
-    // Om datan är tom array och vi har laddat klart: spara inte
+
+    // Om det är en array och den är tom → spara inte
     if (Array.isArray(sheetData) && sheetData.length === 0) return;
+
+    // Om det är ett objekt och det är tomt → spara inte
+    if (
+      !Array.isArray(sheetData) &&
+      typeof sheetData === 'object' &&
+      Object.keys(sheetData as object).length === 0
+    ) {
+      return;
+    }
+
     localStorage.setItem(key, JSON.stringify(sheetData));
     if (filename) localStorage.setItem(filenameKey, filename);
   }, [sheetData, filename, key, filenameKey]);
