@@ -58,7 +58,14 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
             onGridReady={(params) => {
               gridApiRef.current = params.api as GridApi;
             }}
-            onCellValueChanged={saveData}
+            onCellValueChanged={() => {
+              if (!gridApiRef.current) return;
+              const updatedData: { [key: string]: unknown }[] = [];
+              gridApiRef.current.forEachNode((node) => {
+                updatedData.push(node.data);
+              });
+              dataOnChange?.(updatedData);
+            }}
           />
         </div>
       )}

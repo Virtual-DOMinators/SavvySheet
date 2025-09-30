@@ -58,14 +58,17 @@ function App() {
                 setSheets((prev) => ({ ...prev, [sheetName]: newData as ExcelRow[] }))
               }
             />
-            <ExportButton
-              data={data}
-              columns={columns[sheetName] || []}
-              originalFileName={`${filename || 'export'} - ${sheetName}`}
-            />
           </div>
         ))
       )}
+
+      <ExportButton
+        data={Object.entries(sheets).flatMap(([sheetName, rows]) =>
+          rows.map((row) => ({ SheetName: sheetName, ...row })),
+        )}
+        columns={Object.values(columns).flat()}
+        originalFileName={filename}
+      />
     </div>
   );
 }
