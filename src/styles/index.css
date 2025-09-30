@@ -3,17 +3,12 @@
   themes: 'synthwave';
 }
 
-html,
-body {
-  @apply min-h-screen;
-}
-
 * {
   @apply transition-colors;
 }
 
 header {
-  @apply flex items-center p-4 justify-between;
+  @apply flex items-center justify-between p-4;
   border-bottom: 3px solid;
 }
 
