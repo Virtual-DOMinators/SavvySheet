@@ -30,7 +30,8 @@
       "@styles": ["styles"],
       "@components": ["Components"],
       "@src": ["."],
-      "@exportbutton": ["Components/ExportButton"]
+      "@exportbutton": ["Components/ExportButton"],
+      "@hooks": ["hooks"]
     }
   },
   "include": ["src"]

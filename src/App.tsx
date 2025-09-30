@@ -1,8 +1,8 @@
-import { EditableTable, Header } from '@components';
+import { EditableTable, Header, UploadFile } from '@components';
 import { ExportButton } from '@exportbutton';
-import UploadFile from 'Components/UploadFile';
+import { useLocalSheet } from '@hooks';
 import type { ExportColumn } from '@components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type ExcelRow = {
   [key: string]: string | number | boolean | null;
@@ -17,12 +17,14 @@ function App() {
   const [columns, setColumns] = useState<{ [sheetName: string]: ExportColumn<ExcelRow>[] }>({});
   const [filename, setFilename] = useState<string | undefined>(undefined);
 
-  const handleDataChange = (sheetData: SheetData) => {
-    setSheets(sheetData);
+  // Spara/ladda sheets + filnamn med localStorage
+  useLocalSheet(sheets, setSheets, filename, setFilename);
 
+  // Sätt kolumner automatiskt när sheets ändras
+  useEffect(() => {
     const newColumns: { [sheetName: string]: ExportColumn<ExcelRow>[] } = {};
 
-    Object.entries(sheetData).forEach(([sheetName, data]) => {
+    Object.entries(sheets).forEach(([sheetName, data]) => {
       if (data.length > 0) {
         const keys = Object.keys(data[0]);
         newColumns[sheetName] = keys.map((key) => ({
@@ -31,15 +33,16 @@ function App() {
         }));
       }
     });
+
     setColumns(newColumns);
-  };
+  }, [sheets]);
 
   return (
     <div className="m-2">
       <Header />
       <UploadFile
         onDataParsed={(parsedSheets, fileName) => {
-          handleDataChange(parsedSheets);
+          setSheets(parsedSheets);
           setFilename(fileName);
         }}
       />
