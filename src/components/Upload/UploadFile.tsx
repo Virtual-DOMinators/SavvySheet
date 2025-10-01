@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Spinner } from '@components/Ui';
 import type { UploadFileProps } from '@types';
 
@@ -6,6 +7,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const navigate = useNavigate();
 
   const handlFile = useCallback(
     async (file: File) => {
@@ -17,6 +19,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
       try {
         const { parseExcelFile } = await import('utils/uploadUtils');
         await parseExcelFile(file, onDataParsed);
+        navigate('/sheet');
       } catch (error) {
         console.error('Fel vid parsing av Excel-fil:', error);
         alert('Kunde inte läsa filen. Kontrollera att det är en giltig .xlsx-fil.');
@@ -24,7 +27,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
         setLoading(false);
       }
     },
-    [onDataParsed],
+    [onDataParsed, navigate],
   );
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

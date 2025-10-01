@@ -21,7 +21,6 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
       updatedData.push(node.data);
     });
 
-    // Typa om till ExcelRow[]
     const typedData: ExcelRow[] = updatedData.map((row) => {
       const out: ExcelRow = {};
       Object.entries(row).forEach(([key, value]) => {
@@ -74,7 +73,7 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
               gridApiRef.current.forEachNode((node) => {
                 updatedData.push(node.data);
               });
-              // Typa om till ExcelRow[]
+
               const typedData: ExcelRow[] = updatedData.map((row) => {
                 const out: ExcelRow = {};
                 Object.entries(row).forEach(([key, value]) => {
