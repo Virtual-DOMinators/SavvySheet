@@ -31,7 +31,7 @@ function App() {
   return (
     <div>
       <Header />
-      <main className="w-full max-w-3xl mx-auto px-2 md:px-8">
+      <main className="w-full max-w-3xl mx-auto px-2 md:px-8 mb-2">
         <Suspense fallback={<Spinner />}>
           <UploadFile onDataParsed={handleDataParsed} />
         </Suspense>
