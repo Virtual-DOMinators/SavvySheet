@@ -31,53 +31,51 @@ function App() {
   return (
     <>
       <Header />
-      <div className="">
-        <main className="justify-start">
-          <Suspense fallback={<Spinner />}>
-            <UploadFile onDataParsed={handleDataParsed} />
-          </Suspense>
+      <main className="w-full max-w-3xl mx-auto px-2 md:px-8 mb-2">
+        <Suspense fallback={<Spinner />}>
+          <UploadFile onDataParsed={handleDataParsed} />
+        </Suspense>
 
-          {sheetNames.length === 0 ? (
-            <div className="text-center text-gray-500">Ingen fil uppladdad ännu.</div>
-          ) : (
-            <div className="max-w-6xl mx-auto px-2 md:px-8 mb-2 flex flex-col">
-              <ExportPanel
-                sheets={sheets}
-                columns={Object.values(columns).flat()}
-                filename={filename}
+        {sheetNames.length === 0 ? (
+          <div className="text-center text-gray-500">Ingen fil uppladdad ännu.</div>
+        ) : (
+          <div className="max-w-6xl mx-auto px-2 md:px-8 mb-2 flex flex-col">
+            <ExportPanel
+              sheets={sheets}
+              columns={Object.values(columns).flat()}
+              filename={filename}
+            />
+
+            <Suspense fallback={<Spinner />}>
+              <SheetView
+                sheetName={sheetNames[currentSheetIdx]}
+                data={sheets[sheetNames[currentSheetIdx]]}
+                onDataChange={(newData: ExcelRow[]) =>
+                  setSheets((prev) => ({
+                    ...prev,
+                    [sheetNames[currentSheetIdx]]: newData as ExcelRow[],
+                  }))
+                }
+                columns={columns[sheetNames[currentSheetIdx]]}
+                originalFileName={filename}
               />
+            </Suspense>
 
-              <Suspense fallback={<Spinner />}>
-                <SheetView
-                  sheetName={sheetNames[currentSheetIdx]}
-                  data={sheets[sheetNames[currentSheetIdx]]}
-                  onDataChange={(newData: ExcelRow[]) =>
-                    setSheets((prev) => ({
-                      ...prev,
-                      [sheetNames[currentSheetIdx]]: newData as ExcelRow[],
-                    }))
-                  }
-                  columns={columns[sheetNames[currentSheetIdx]]}
-                  originalFileName={filename}
-                />
-              </Suspense>
-
-              {sheetNames.length > 1 && (
-                <div className="flex justify-center">
-                  <Suspense fallback={<Spinner />}>
-                    <SheetNavigation
-                      currentIdx={currentSheetIdx}
-                      maxIdx={sheetNames.length - 1}
-                      onPrev={handlePrev}
-                      onNext={handleNext}
-                    />
-                  </Suspense>
-                </div>
-              )}
-            </div>
-          )}
-        </main>
-      </div>
+            {sheetNames.length > 1 && (
+              <div className="flex justify-center">
+                <Suspense fallback={<Spinner />}>
+                  <SheetNavigation
+                    currentIdx={currentSheetIdx}
+                    maxIdx={sheetNames.length - 1}
+                    onPrev={handlePrev}
+                    onNext={handleNext}
+                  />
+                </Suspense>
+              </div>
+            )}
+          </div>
+        )}
+      </main>
     </>
   );
 }
