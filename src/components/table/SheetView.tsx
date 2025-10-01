@@ -1,13 +1,22 @@
 import { EditableTable } from '@components/table';
 import type { ExcelRow } from '@types';
+import type { ExportColumn } from '@components/export';
 
 interface SheetViewProps {
   sheetName: string;
   data: ExcelRow[];
   onDataChange: (newData: ExcelRow[]) => void;
+  columns: ExportColumn<ExcelRow>[];
+  originalFileName?: string;
 }
 
-export function SheetView({ sheetName, data, onDataChange }: SheetViewProps) {
+function SheetView({
+  sheetName,
+  data,
+  onDataChange,
+  columns: _columns,
+  originalFileName: _originalFileName,
+}: SheetViewProps) {
   return (
     <div className="pt-2">
       <h2 className="text-xl font-bold mb-2">{sheetName}</h2>
@@ -15,3 +24,5 @@ export function SheetView({ sheetName, data, onDataChange }: SheetViewProps) {
     </div>
   );
 }
+
+export default SheetView;
