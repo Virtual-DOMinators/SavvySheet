@@ -3,6 +3,10 @@
   themes: 'synthwave';
 }
 
+.font-grand-hotel {
+  font-family: 'Grand Hotel', cursive;
+}
+
 * {
   @apply transition-colors;
 }

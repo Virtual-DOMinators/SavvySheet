@@ -56,7 +56,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
   };
 
   return (
-    <div className="my-6 w-screen max-w-3xl mx-auto px-2 md:px-8">
+    <div className=" my-6 w-screen max-w-3xl mx-auto px-2 md:px-8">
       <div
         className={`border-2 p-6 rounded-md text-center cursor-pointer transition ${isDragging ? 'border-blue-400 bg-blue-50' : 'border-gray-400 hover:bg-gray-50'}`}
         onClick={() => fileInputRef.current?.click()}

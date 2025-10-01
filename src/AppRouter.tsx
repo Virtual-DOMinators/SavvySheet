@@ -21,7 +21,7 @@ function AppRouter() {
 
   return (
     <BrowserRouter>
-      <main className="w-full max-w-3xl mx-auto">
+      <main className="min-h-screen">
         <Routes>
           <Route path="/" element={<HomePage onDataParsed={handleDataParsed} />} />
           <Route
