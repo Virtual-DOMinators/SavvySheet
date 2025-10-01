@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import type { ExportColumn } from '@components/export';
+import type { ExportColumn } from '@types';
 
 export function getPdfFilename(originalFileName?: string): string {
   if (!originalFileName) return 'table-savvysheet.pdf';

@@ -1,5 +1,5 @@
 import * as XLSX from 'xlsx';
-import type { RowData } from './uploadTypes';
+import type { RowData } from '@types';
 
 export function parseExcelFile(
   file: File,

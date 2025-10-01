@@ -2,9 +2,8 @@ import { useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import type { ColDef, GridApi } from 'ag-grid-community';
 import { AllCommunityModule, ModuleRegistry, themeAlpine } from 'ag-grid-community';
-import { isEqual, getColumnDefs } from '@components/table';
-import type { EditableTableProps } from '@components/table';
-import type { ExcelRow } from '@types';
+import { isEqual, getColumnDefs } from '@utils';
+import type { EditableTableProps, ExcelRow } from '@types';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 

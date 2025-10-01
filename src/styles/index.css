@@ -8,7 +8,7 @@
 }
 
 header {
-  @apply flex items-center justify-between p-4;
+  @apply flex items-center p-5;
   border-bottom: 3px solid;
 }
 
@@ -24,7 +24,7 @@ header h1 {
 
 /* Export sections & buttons */
 .export-section {
-  @apply flex mx-auto gap-4 mt-4 justify-center;
+  @apply flex mx-auto gap-4  justify-center;
 }
 
 .export-section .show-pdf-button {

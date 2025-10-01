@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
-import { Spinner } from '@components/ui';
-import type { UploadFileProps } from '@components/upload';
+import { Spinner } from '@components/Ui';
+import type { UploadFileProps } from '@types';
 
 const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -15,8 +15,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
       }
       setLoading(true);
       try {
-        // Lazy-load parsern först när fil faktiskt väljs
-        const { parseExcelFile } = await import('components/upload/uploadUtils');
+        const { parseExcelFile } = await import('utils/uploadUtils');
         await parseExcelFile(file, onDataParsed);
       } catch (error) {
         console.error('Fel vid parsing av Excel-fil:', error);
@@ -53,29 +52,8 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
     setIsDragging(false);
   };
 
-  // const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (!file) return;
-
-  //   if (file.name.endsWith('.xlsx')) {
-  //     setLoading(true);
-  //     try {
-  //       // Lazy-load parsern först när fil faktiskt väljs
-  //       const { parseExcelFile } = await import('components/upload/uploadUtils');
-  //       await parseExcelFile(file, onDataParsed);
-  //     } catch (error) {
-  //       console.error('Fel vid parsing av Excel-fil:', error);
-  //       alert('Kunde inte läsa filen. Kontrollera att det är en giltig .xlsx-fil.');
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   } else {
-  //     alert('Endast .xlsx-filer stöds');
-  //   }
-  // };
-
   return (
-    <div className="my-4">
+    <div className="my-6 w-screen max-w-3xl mx-auto px-2 md:px-8">
       <div
         className={`border-2 p-6 rounded-md text-center cursor-pointer transition ${isDragging ? 'border-blue-400 bg-blue-50' : 'border-gray-400 hover:bg-gray-50'}`}
         onClick={() => fileInputRef.current?.click()}
