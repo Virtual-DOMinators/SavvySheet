@@ -1,17 +1,16 @@
 import React, { useState, Suspense } from 'react';
-
-import { Header } from '@components/layout';
+import { Header } from '@components/Layout';
 import { useLocalSheet, useSheetColumns } from '@hooks';
 import type { ExcelRow, SheetData } from '@types';
-import { Spinner } from '@components/ui';
+import { Spinner } from '@components/Ui';
 
 // Lazy imports
-const UploadFile = React.lazy(() => import('./components/upload/UploadFile'));
-const ExportToolbar = React.lazy(() => import('./components/export/ExportToolbar'));
+const UploadFile = React.lazy(() => import('components/Upload/UploadFile'));
+const ExportToolbar = React.lazy(() => import('components/Export/ExportToolbar'));
 const SheetView = React.lazy(
-  () => import('./components/table/SheetView' /* webpackPrefetch: true */),
+  () => import('components/Sheet/SheetView' /* webpackPrefetch: true */),
 );
-const SheetNavigation = React.lazy(() => import('./components/table/SheetNavigation'));
+const SheetNavigation = React.lazy(() => import('components/Sheet/SheetNavigation'));
 
 function App() {
   const [sheets, setSheets] = useState<SheetData>({});

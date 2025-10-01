@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { ExportColumn } from '@components/export';
-import type { ExcelRow, SheetData } from '@types';
-import { getColumnDefs } from '@components/table';
+import type { ExportColumn, ExcelRow, SheetData } from '@types';
+import { getColumnDefs } from '@utils';
 
 export function useSheetColumns(sheets: SheetData) {
   const [columns, setColumns] = useState<{ [sheetName: string]: ExportColumn<ExcelRow>[] }>({});

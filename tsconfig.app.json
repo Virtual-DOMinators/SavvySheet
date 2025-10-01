@@ -30,13 +30,14 @@
       "@src": ["."],
       "@styles": ["styles"],
       "@components": ["components"],
-      "@components/export": ["components/export"],
-      "@components/layout": ["components/layout"],
-      "@components/table": ["components/table"],
-      "@components/upload": ["components/upload"],
-      "@components/ui": ["components/ui"],
+      "@components/Export": ["components/Export"],
+      "@components/Layout": ["components/Layout"],
+      "@components/Sheet": ["components/Sheet"],
+      "@components/Upload": ["components/Upload"],
+      "@components/Ui": ["components/Ui"],
       "@hooks": ["hooks"],
-      "@types": ["types"]
+      "@types": ["types"],
+      "@utils": ["utils"]
     }
   },
   "include": ["src"]

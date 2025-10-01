@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
-import { Spinner } from '@components/ui';
-import type { UploadFileProps } from '@components/upload';
+import { Spinner } from '@components/Ui';
+import type { UploadFileProps } from '@types';
 
 const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -14,7 +14,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
       setLoading(true);
       try {
         // Lazy-load parsern först när fil faktiskt väljs
-        const { parseExcelFile } = await import('components/upload/uploadUtils');
+        const { parseExcelFile } = await import('utils/uploadUtils');
         await parseExcelFile(file, onDataParsed);
       } catch (error) {
         console.error('Fel vid parsing av Excel-fil:', error);

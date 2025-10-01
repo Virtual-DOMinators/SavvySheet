@@ -1,6 +1,6 @@
 import { DocumentArrowDownIcon, DocumentMagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { getPdfFilename, generatePDF } from '@components/export';
-import type { ExportColumn } from '@components/export';
+import { getPdfFilename, generatePDF } from '@utils';
+import type { ExportColumn } from '@types';
 
 interface ExportButtonProps<T extends Record<string, unknown> & { SheetName?: string }> {
   data: T[];

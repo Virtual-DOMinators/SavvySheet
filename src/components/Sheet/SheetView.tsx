@@ -1,6 +1,5 @@
-import { EditableTable } from '@components/table';
-import type { ExcelRow } from '@types';
-import type { ExportColumn } from '@components/export';
+import { EditableTable } from '@components/Sheet';
+import type { ExcelRow, ExportColumn } from '@types';
 
 interface SheetViewProps {
   sheetName: string;
