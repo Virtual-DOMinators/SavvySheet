@@ -7,7 +7,7 @@ interface SheetNavigationProps {
 
 function SheetNavigation({ currentIdx, maxIdx, onPrev, onNext }: SheetNavigationProps) {
   return (
-    <div className="flex gap-4 justify-center mt-4">
+    <div className="flex gap-4 justify-center">
       <button onClick={onPrev} disabled={currentIdx === 0} className="btn btn-outline">
         Föregående
       </button>
