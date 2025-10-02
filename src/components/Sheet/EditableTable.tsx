@@ -42,7 +42,7 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
   }, [dataOnChange]);
 
   return (
-    <div className="w-full overflow-x-auto">
+    <div className="w-full h-full">
       {data.length === 0 ? (
         <div className="flex items-center justify-center h-full rounded-md text-gray-600 italic border-2 border-gray-400">
           Ingen fil uppladdad än!
@@ -50,18 +50,20 @@ const EditableTable: React.FC<EditableTableProps> = ({ data, dataOnChange }) => 
       ) : (
         <div
           onMouseLeave={saveData}
-          className="w-full"
-          style={{ height: '400px', maxHeight: '80vh' }}
+          className="w-full h-full"
+          style={{ height: 'calc(100vh - 250px)' }}
         >
-          <AgGridReact
-            rowData={data}
-            theme={themeAlpine}
-            columnDefs={colDefs}
-            onGridReady={(params) => {
-              gridApiRef.current = params.api as GridApi;
-            }}
-            onCellValueChanged={saveData}
-          />
+          <div className="ag-theme-alpine w-full h-full">
+            <AgGridReact
+              rowData={data}
+              theme={themeAlpine}
+              columnDefs={colDefs}
+              onGridReady={(params) => {
+                gridApiRef.current = params.api as GridApi;
+              }}
+              onCellValueChanged={saveData}
+            />
+          </div>
         </div>
       )}
     </div>

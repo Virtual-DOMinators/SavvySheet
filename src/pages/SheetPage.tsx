@@ -53,7 +53,7 @@ const SheetPage: React.FC<SheetPageProps> = ({
     >
       <Suspense fallback={<Spinner />}>
         <Header sheets={sheets} columns={flatColumns} filename={filename} />
-        <div className="max-w-6xl mx-auto px-2 md:px-8 mb-2 flex flex-col gap-4">
+        <div className="flex flex-col gap-4 p-2 lg:pl-10 lg:pr-10">
           <SheetView
             sheetName={sheetNames[currentSheetIdx]}
             data={sheets[sheetNames[currentSheetIdx]]}
@@ -67,7 +67,7 @@ const SheetPage: React.FC<SheetPageProps> = ({
             }
           />
           {sheetNames.length > 1 && (
-            <div className="flex justify-center mt-2">
+            <div className="">
               <SheetNavigation
                 currentIdx={currentSheetIdx}
                 maxIdx={sheetNames.length - 1}
