@@ -36,9 +36,7 @@ const HomePage: React.FC<HomePageProps> = ({ onDataParsed }) => {
       <BoxesContainer />
 
       <React.Suspense fallback={<Spinner />}>
-        {/* Ingen extra wrapper, bara flex och gap */}
         <div className="flex flex-col items-center justify-center w-full h-full min-h-screen gap-12 relative z-30">
-          {/* H1 högre upp med margin */}
           <motion.div {...titleMotion} className="mt-16 mb-2">
             <h1
               className="font-grand-hotel text-5xl sm:text-7xl md:text-9xl font-extrabold text-white text-center"
@@ -49,19 +47,14 @@ const HomePage: React.FC<HomePageProps> = ({ onDataParsed }) => {
               SavvySheet
             </h1>
           </motion.div>
-          {/* Drag/drop centrerad */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 40 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9, y: 40, boxShadow: '0px 0px 0px rgba(0,255,180,0)' }}
+            animate={{ opacity: 1, scale: 1, y: 0, boxShadow: '0px 0px 0px rgba(0,255,180,0)' }}
             transition={{
               type: 'spring',
               stiffness: 100,
               damping: 20,
               delay: 0.5,
-            }}
-            whileHover={{
-              scale: 1.02,
-              boxShadow: '0px 0px 25px rgba(0,255,180,0.2)',
             }}
             className="flex justify-center"
           >
