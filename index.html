@@ -38,3 +38,15 @@
     <div id="root"></div>
   </body>
 </html>
+<script>
+  (function () {
+    if (sessionStorage.redirect) {
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      var path = redirect.replace(window.location.origin, '');
+      if (path !== '/SavvySheet/') {
+        window.history.replaceState(null, '', path);
+      }
+    }
+  })();
+</script>
