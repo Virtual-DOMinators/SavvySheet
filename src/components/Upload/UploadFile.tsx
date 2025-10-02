@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Spinner } from '@components/Ui';
 import type { UploadFileProps } from '@types';
 
@@ -6,8 +7,9 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const navigate = useNavigate();
 
-  const handlFile = useCallback(
+  const handleFile = useCallback(
     async (file: File) => {
       if (!file.name.endsWith('.xlsx')) {
         alert('Endast .xlsx-filer stöds.');
@@ -17,6 +19,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
       try {
         const { parseExcelFile } = await import('utils/uploadUtils');
         await parseExcelFile(file, onDataParsed);
+        navigate('/sheet');
       } catch (error) {
         console.error('Fel vid parsing av Excel-fil:', error);
         alert('Kunde inte läsa filen. Kontrollera att det är en giltig .xlsx-fil.');
@@ -24,13 +27,13 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
         setLoading(false);
       }
     },
-    [onDataParsed],
+    [onDataParsed, navigate],
   );
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      handlFile(file);
+      handleFile(file);
     }
   };
 
@@ -39,7 +42,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
     setIsDragging(false);
     const file = event.dataTransfer.files?.[0];
     if (file) {
-      handlFile(file);
+      handleFile(file);
     }
   };
 
@@ -55,7 +58,13 @@ const UploadFile: React.FC<UploadFileProps> = ({ onDataParsed }) => {
   return (
     <div className="my-6 w-screen max-w-3xl mx-auto px-2 md:px-8">
       <div
-        className={`border-2 p-6 rounded-md text-center cursor-pointer transition ${isDragging ? 'border-blue-400 bg-blue-50' : 'border-gray-400 hover:bg-gray-50'}`}
+        className={`w-full h-full text-center cursor-pointer transition-all duration-500 rounded-xl border
+          flex items-center justify-center min-h-[60px]
+          ${
+            isDragging
+              ? 'border-blue-400 animated-gradient-bg shadow-[0_0_40px_10px_rgba(0,255,255,0.2)]'
+              : 'border-gray-400 bg-white/5 hover:animated-gradient-bg hover:shadow-[0_0_30px_5px_rgba(0,255,255,0.07)]'
+          }`}
         onClick={() => fileInputRef.current?.click()}
         onDrop={handleDrop}
         onDragOver={handleDragOver}

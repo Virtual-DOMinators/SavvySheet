@@ -35,6 +35,7 @@
       "@components/Sheet": ["components/Sheet"],
       "@components/Upload": ["components/Upload"],
       "@components/Ui": ["components/Ui"],
+      "@pages": ["pages"],
       "@hooks": ["hooks"],
       "@types": ["types"],
       "@utils": ["utils"]
