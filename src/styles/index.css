@@ -41,3 +41,21 @@ header h1 {
 .export-section svg {
   @apply w-5 h-5;
 }
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(270deg, #06f0ff 0%, #4e44fd 50%, #06f0ff 100%);
+  background-size: 200% 200%;
+  animation: gradientMove 3s ease-in-out infinite;
+}
