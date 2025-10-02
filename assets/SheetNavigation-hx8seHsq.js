@@ -1,0 +1,1 @@
+import{j as e}from"./index-BVowbK7o.js";function l({currentIdx:t,maxIdx:n,onPrev:s,onNext:i}){return e.jsxs("div",{className:"flex gap-4 justify-center",children:[e.jsx("button",{onClick:s,disabled:t===0,className:"btn btn-outline",children:"Föregående"}),e.jsx("button",{onClick:i,disabled:t===n,className:"btn btn-outline",children:"Nästa"})]})}export{l as default};
