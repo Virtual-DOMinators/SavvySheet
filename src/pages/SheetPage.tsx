@@ -12,7 +12,6 @@ interface SheetPageProps {
 }
 
 const Header = React.lazy(() => import('@components/Layout/Header'));
-const ExportPanel = React.lazy(() => import('@components/Export/ExportPanel'));
 const SheetView = React.lazy(() => import('@components/Sheet/SheetView'));
 const SheetNavigation = React.lazy(() => import('@components/Sheet/SheetNavigation'));
 
@@ -37,7 +36,12 @@ const SheetPage: React.FC<SheetPageProps> = ({
   const handlePrev = () => setCurrentSheetIdx(Math.max(currentSheetIdx - 1, 0));
 
   if (sheetNames.length === 0) {
-    return <div className="text-center text-gray-500 mt-12">Ingen fil uppladdad ännu.</div>;
+    return (
+      <Suspense fallback={<Spinner />}>
+        <Header sheets={sheets} columns={flatColumns} filename={filename} />
+        <div className="text-center text-gray-500 mt-12">Ingen fil uppladdad ännu.</div>
+      </Suspense>
+    );
   }
 
   return (
@@ -48,9 +52,8 @@ const SheetPage: React.FC<SheetPageProps> = ({
       className="min-h-screen"
     >
       <Suspense fallback={<Spinner />}>
-        <Header />
+        <Header sheets={sheets} columns={flatColumns} filename={filename} />
         <div className="max-w-6xl mx-auto px-2 md:px-8 mb-2 flex flex-col gap-4">
-          <ExportPanel sheets={sheets} columns={flatColumns} filename={filename} />
           <SheetView
             sheetName={sheetNames[currentSheetIdx]}
             data={sheets[sheetNames[currentSheetIdx]]}
