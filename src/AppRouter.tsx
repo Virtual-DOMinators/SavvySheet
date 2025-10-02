@@ -20,7 +20,7 @@ function AppRouter() {
   };
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/SavvySheet">
       <main className="min-h-screen">
         <Routes>
           <Route path="/" element={<HomePage onDataParsed={handleDataParsed} />} />
