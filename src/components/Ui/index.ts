@@ -1,2 +1,2 @@
 export { default as Spinner } from './Spinner';
-export * from './BoxesContainer';
+export { default as BoxesContainer } from './BoxesContainer';

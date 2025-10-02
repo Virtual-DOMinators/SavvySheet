@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Spinner } from '@components/Ui';
 import { HomePage, SheetPage } from '@pages';
 import { useLocalSheet, useSheetColumns } from '@hooks';
 import type { SheetData } from '@types';
 
 function AppRouter() {
   const [sheets, setSheets] = useState<SheetData>({});
-  const [filename, setFilename] = useState<string | undefined>();
+  const [filename, setFilename] = useState<string>();
   useLocalSheet(sheets, setSheets, filename, setFilename);
 
   const columns = useSheetColumns(sheets);
-  const [currentSheetIdx, setCurrentSheetIdx] = useState(0);
+  const [currentSheetIdx, setCurrentSheetIdx] = useState<number>(0);
 
+  // Typad callback för HomePage
   const handleDataParsed = (parsedSheets: SheetData, fileName: string) => {
     setSheets(parsedSheets);
     setFilename(fileName);
@@ -27,16 +27,14 @@ function AppRouter() {
           <Route
             path="/sheet"
             element={
-              <React.Suspense fallback={<Spinner />}>
-                <SheetPage
-                  sheets={sheets}
-                  columns={columns}
-                  filename={filename}
-                  currentSheetIdx={currentSheetIdx}
-                  setSheets={setSheets}
-                  setCurrentSheetIdx={setCurrentSheetIdx}
-                />
-              </React.Suspense>
+              <SheetPage
+                sheets={sheets}
+                columns={columns}
+                filename={filename}
+                currentSheetIdx={currentSheetIdx}
+                setSheets={setSheets}
+                setCurrentSheetIdx={setCurrentSheetIdx}
+              />
             }
           />
         </Routes>

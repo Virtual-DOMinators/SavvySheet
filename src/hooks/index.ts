@@ -1,2 +1,2 @@
 export { default as useLocalSheet } from './useLocalSheet';
-export * from './useSheetColumns';
+export { default as useSheetColumns } from './useSheetColumns';

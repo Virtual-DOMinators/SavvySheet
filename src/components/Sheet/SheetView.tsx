@@ -10,15 +10,10 @@ interface SheetViewProps {
   originalFileName?: string;
 }
 
-function SheetView({
-  sheetName,
-  data,
-  onDataChange,
-  columns: _columns,
-  originalFileName: _originalFileName,
-}: SheetViewProps) {
+const SheetView: React.FC<SheetViewProps> = ({ sheetName, data, onDataChange }) => {
   const navigate = useNavigate();
-  const handleNewFile = () => {
+
+  const handleNewFile = (): void => {
     onDataChange([]);
     navigate('/');
   };
@@ -32,6 +27,6 @@ function SheetView({
       <EditableTable data={data} dataOnChange={onDataChange} />
     </div>
   );
-}
+};
 
 export default SheetView;

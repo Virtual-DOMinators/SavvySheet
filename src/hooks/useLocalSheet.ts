@@ -2,16 +2,9 @@ import { useEffect, useRef } from 'react';
 
 /**
  * Custom hook för att spara och ladda sheets-data till localStorage.
- * Hanterar både array och objekt-format samt filnamn.
- *
- * @param sheetData      - Datan som ska sparas (array eller objekt)
- * @param setSheetData   - Setter för datan
- * @param filename       - Filnamn (valfritt)
- * @param setFilename    - Setter för filnamn (valfritt)
- * @param key            - LocalStorage-nyckel för datan
- * @param filenameKey    - LocalStorage-nyckel för filnamn
+ * @template T - Typ av sheet-data, kan vara objekt eller array.
  */
-function useLocalSheet<T>(
+function useLocalSheet<T extends Record<string, unknown> | unknown[]>(
   sheetData: T,
   setSheetData: (d: T) => void,
   filename?: string,
@@ -21,37 +14,41 @@ function useLocalSheet<T>(
 ) {
   const hasLoaded = useRef(false);
 
-  // Läs från localStorage EN gång vid mount
   useEffect(() => {
     const saved = localStorage.getItem(key);
     if (saved) {
-      setSheetData(JSON.parse(saved));
+      try {
+        const parsed: T = JSON.parse(saved);
+        setSheetData(parsed);
+      } catch (e) {
+        console.error('Failed to parse saved sheets', e);
+      }
     }
+
     if (setFilename) {
       const savedFilename = localStorage.getItem(filenameKey);
       if (savedFilename) setFilename(savedFilename);
     }
+
     hasLoaded.current = true;
   }, [key, filenameKey, setSheetData, setFilename]);
 
-  // Spara till localStorage när data eller filnamn ändras, men INTE första render
   useEffect(() => {
     if (!hasLoaded.current) return;
 
-    // Om det är en array och den är tom → spara inte
-    if (Array.isArray(sheetData) && sheetData.length === 0) return;
+    const isEmpty =
+      (Array.isArray(sheetData) && sheetData.length === 0) ||
+      (!Array.isArray(sheetData) && Object.keys(sheetData).length === 0);
 
-    // Om det är ett objekt och det är tomt → spara inte
-    if (
-      !Array.isArray(sheetData) &&
-      typeof sheetData === 'object' &&
-      Object.keys(sheetData as object).length === 0
-    ) {
-      return;
-    }
+    if (isEmpty) return;
 
-    localStorage.setItem(key, JSON.stringify(sheetData));
-    if (filename) localStorage.setItem(filenameKey, filename);
+    const save = () => {
+      localStorage.setItem(key, JSON.stringify(sheetData));
+      if (filename) localStorage.setItem(filenameKey, filename);
+    };
+
+    const timeout = setTimeout(save, 200);
+    return () => clearTimeout(timeout);
   }, [sheetData, filename, key, filenameKey]);
 }
 

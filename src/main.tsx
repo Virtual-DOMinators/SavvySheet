@@ -1,14 +1,15 @@
-import React, { StrictMode, Suspense } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Spinner } from '@components/Ui';
 import '@styles';
+import App from './App';
 
-const App = React.lazy(() => import('./App'));
+const container = document.getElementById('root');
+if (!container) {
+  throw new Error('Root element not found. Make sure index.html has a <div id="root"></div>');
+}
 
-createRoot(document.getElementById('root')!).render(
+createRoot(container).render(
   <StrictMode>
-    <Suspense fallback={<Spinner />}>
-      <App />
-    </Suspense>
+    <App />
   </StrictMode>,
 );
