@@ -11,32 +11,7 @@
   @apply transition-colors;
 }
 
-header {
-  @apply flex items-center p-5;
-  border-bottom: 3px solid;
-}
-
-header img {
-  @apply h-20 w-20;
-}
-
-header h1 {
-  @apply text-6xl text-center flex-1;
-  font-family: 'Grand Hotel', cursive;
-  font-weight: 500;
-}
-
 /* Export sections & buttons */
-.export-section {
-  @apply flex mx-auto gap-4  justify-center;
-}
-
-.export-section .show-pdf-button {
-  @apply btn btn-outline btn-primary flex items-center gap-2;
-}
-.export-section .download-pdf-button {
-  @apply btn btn-outline btn-success flex items-center gap-2;
-}
 
 .export-section svg {
   @apply w-5 h-5;

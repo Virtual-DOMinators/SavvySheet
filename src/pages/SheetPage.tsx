@@ -1,6 +1,7 @@
 import React, { useMemo, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import type { ExcelRow, SheetData, ExportColumn } from '@types';
+import { useLocalSheet } from '@hooks';
 
 interface SheetPageProps {
   sheets: SheetData;
@@ -9,6 +10,7 @@ interface SheetPageProps {
   currentSheetIdx: number;
   setSheets: React.Dispatch<React.SetStateAction<SheetData>>;
   setCurrentSheetIdx: (idx: number) => void;
+  setFilename?: (f: string) => void;
 }
 
 const Header = React.lazy(() => import('@components/Layout/Header'));
@@ -28,7 +30,9 @@ const SheetPage: React.FC<SheetPageProps> = ({
   currentSheetIdx,
   setSheets,
   setCurrentSheetIdx,
+  setFilename,
 }) => {
+  useLocalSheet(sheets, setSheets, filename, setFilename);
   const sheetNames = useMemo(() => Object.keys(sheets), [sheets]);
   const flatColumns = useMemo(() => Object.values(columns).flat(), [columns]);
 

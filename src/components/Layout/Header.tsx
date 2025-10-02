@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ExportPanel } from '@components/Export';
+import { DropDown } from '@components/Layout';
 import type { SheetData, ExcelRow, ExportColumn } from '@types';
 
 interface HeaderProps {
@@ -13,21 +13,25 @@ const Header: React.FC<HeaderProps> = ({ sheets, columns, filename }) => {
   const navigate = useNavigate();
   const hasData = Object.keys(sheets).length > 0;
 
-  const handleNewFile = (): void => {
+  const handleNewFile = () => {
     navigate('/');
   };
 
   return (
-    <header className="flex flex-col md:flex-row items-center justify-between gap-4 py-4 px-8">
-      <div className="flex items-center gap-4">
+    <header className="flex justify-between items-center border-b-3 p-3">
+      <div className="flex items-center gap-4 p-4">
         <img src="logo.webp" alt="Logo" className="h-12 w-12" />
-        <h1 className="text-2xl font-bold">SavvySheet</h1>
+        <h1 className="text-3xl font-bold font-grand-hotel">SavvySheet</h1>
       </div>
-      <div className="flex items-center gap-3">
-        {hasData && <ExportPanel sheets={sheets} columns={columns} filename={filename} />}
-        <button className="btn btn-outline mb-4" onClick={handleNewFile}>
-          Ladda upp ny fil
-        </button>
+      <div className="flex items-center gap-4 p-2">
+        {hasData && (
+          <DropDown
+            sheets={sheets}
+            columns={columns}
+            filename={filename}
+            onUploadNewFile={handleNewFile}
+          />
+        )}
       </div>
     </header>
   );

@@ -1,39 +1,25 @@
 import { DocumentArrowDownIcon, DocumentMagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { getPdfFilename, generatePDF } from '@utils';
 import type { ExportColumn } from '@types';
 
 interface ExportButtonProps<T extends Record<string, unknown> & { SheetName?: string }> {
   data: T[];
   columns: ExportColumn<T>[];
   originalFileName?: string;
+  onDownload: () => void;
+  onShow: () => void;
 }
 
 function ExportButton<T extends Record<string, unknown> & { SheetName?: string }>({
-  data,
-  columns,
-  originalFileName,
+  onDownload,
+  onShow,
 }: ExportButtonProps<T>) {
-  if (!data || data.length === 0) return null;
-
-  const pdfFilename = getPdfFilename(originalFileName);
-
-  const handleDownload = () => {
-    const doc = generatePDF(data as (T & { SheetName?: string })[], columns);
-    doc.save(pdfFilename);
-  };
-
-  const handleShow = () => {
-    const doc = generatePDF(data as (T & { SheetName?: string })[], columns);
-    window.open(doc.output('bloburl'), '_blank');
-  };
-
   return (
-    <div className="export-section">
-      <button type="button" onClick={handleDownload} className="download-pdf-button">
+    <div className="export-section flex flex-col gap-2">
+      <button type="button" onClick={onDownload} className="btn btn-outline btn-primary">
         <DocumentArrowDownIcon />
         Ladda ner PDF
       </button>
-      <button type="button" onClick={handleShow} className="show-pdf-button">
+      <button type="button" onClick={onShow} className="btn btn-outline btn-secondary">
         <DocumentMagnifyingGlassIcon />
         Visa PDF
       </button>
