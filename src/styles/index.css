@@ -1,44 +1,92 @@
 @import 'tailwindcss';
 @plugin "daisyui" {
-  themes: all;
+  themes: 'synthwave';
 }
 
-html,
-body {
-  @apply bg-base-100 text-base-content min-h-screen;
+.font-grand-hotel {
+  font-family: 'Grand Hotel', cursive;
 }
 
 * {
-  @apply transition-colors duration-200;
-}
-
-header {
-  @apply flex items-center p-4 justify-between;
-  border: 3px solid;
-}
-
-header img {
-  @apply h-20 w-20;
-}
-
-header h1 {
-  @apply text-6xl text-center flex-1;
-  font-family: 'Grand Hotel', cursive;
-  font-weight: 500;
+  @apply transition-colors;
 }
 
 /* Export sections & buttons */
-.export-section {
-  @apply flex mx-auto gap-4 mt-4 justify-center;
-}
-
-.export-section .show-pdf-button {
-  @apply btn btn-outline btn-primary flex items-center gap-2;
-}
-.export-section .download-pdf-button {
-  @apply btn btn-outline btn-success flex items-center gap-2;
-}
 
 .export-section svg {
   @apply w-5 h-5;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(270deg, #06f0ff 0%, #4e44fd 50%, #06f0ff 100%);
+  background-size: 200% 200%;
+  animation: gradientMove 3s ease-in-out infinite;
+}
+
+.boxes-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 0;
+}
+
+.boxes-row {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+.box {
+  flex: 1;
+  border: 1px solid #0f172a;
+  border-radius: 2px;
+  opacity: 0.15;
+  background-color: #0f172a;
+  transition:
+    background-color 1.5s ease-in-out,
+    opacity 1.5s ease-in-out;
+}
+
+.box.active {
+  background-color: #ffffff;
+  opacity: 0.14;
+}
+
+/* Spinner animations */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 1.8s linear infinite;
+}
+.animate-spin-reverse {
+  animation: spin-reverse 1.5s linear infinite;
 }

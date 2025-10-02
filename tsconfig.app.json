@@ -27,10 +27,23 @@
     /* Aliases */
     "baseUrl": "./src",
     "paths": {
-      "@styles": ["styles"],
-      "@components": ["Components"],
       "@src": ["."],
-      "@exportbutton": ["Components/ExportButton"]
+      "@styles": ["styles"],
+      "@components": ["components"],
+      "@components/Export": ["components/Export"],
+      "@components/Layout": ["components/Layout"],
+      "@components/Sheet": ["components/Sheet"],
+      "@components/Upload": ["components/Upload"],
+      "@components/Ui": ["components/Ui/"],
+      "@components/Export/*": ["components/Export/*"],
+      "@components/Layout/*": ["components/Layout/*"],
+      "@components/Sheet/*": ["components/Sheet/*"],
+      "@components/Upload/*": ["components/Upload/*"],
+      "@components/Ui/*": ["components/Ui/*"],
+      "@pages": ["pages"],
+      "@hooks": ["hooks"],
+      "@types": ["types"],
+      "@utils": ["utils"]
     }
   },
   "include": ["src"]

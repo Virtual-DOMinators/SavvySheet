@@ -1,41 +1,31 @@
-import { EditableTable, Header } from '@components';
-import { ExportButton } from '@exportbutton';
-import UploadFile from 'Components/UploadFile';
-import type { ExportColumn } from '@components';
-import { useState } from 'react';
+import React, { Suspense } from 'react';
+import { Spinner } from '@components/Ui';
+import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 
-type ExcelRow = { [key: string]: string | number | boolean | null };
+const AppRouter = React.lazy(() => import('./AppRouter'));
+
+function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen text-red-600 p-4">
+      <h2 className="text-xl font-bold mb-2">Something went wrong</h2>
+      <pre className="mb-4">{error.message}</pre>
+      <button
+        onClick={resetErrorBoundary}
+        className="px-4 py-2 rounded bg-red-100 hover:bg-red-200"
+      >
+        Try again
+      </button>
+    </div>
+  );
+}
 
 function App() {
-  const [data, setData] = useState<ExcelRow[]>([]);
-  const [columns, setColumns] = useState<ExportColumn<ExcelRow>[]>([]);
-  const [filename, setFilename] = useState<string | undefined>(undefined);
-
-  const handleDataChange = (jsonData: ExcelRow[]) => {
-    setData(jsonData);
-    if (jsonData.length > 0) {
-      const keys = Object.keys(jsonData[0]);
-      setColumns(keys.map((key) => ({ field: key, headerName: key })));
-    }
-  };
-
   return (
-    <div>
-      <Header />
-      <UploadFile
-        onDataParsed={(parsedData, fileName) => {
-          setData(parsedData);
-          handleDataChange(parsedData);
-          setFilename(fileName);
-        }}
-      />
-
-      <EditableTable
-        data={data as { [key: string]: unknown }[]}
-        dataOnChange={setData as (newData: { [key: string]: unknown }[]) => void}
-      />
-      <ExportButton data={data} columns={columns} originalFileName={filename} />
-    </div>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<Spinner />}>
+        <AppRouter />
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
