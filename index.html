@@ -37,3 +37,15 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+<script>
+  (function () {
+    if (sessionStorage.redirect) {
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      var path = redirect.replace(window.location.origin, '');
+      if (path !== '/SavvySheet/') {
+        window.history.replaceState(null, '', path);
+      }
+    }
+  })();
+</script>
