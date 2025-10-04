@@ -1,22 +1,160 @@
+/**
+ * index.css - Globala stilar för SavvySheet-applikationen
+ * 
+ * Detta är huvudfilen för all CSS i applikationen.
+ * 
+ * Innehåll:
+ * - Tailwind CSS import och konfiguration
+ * - DaisyUI plugin och theme
+ * - Custom font classes
+ * - Global transitions
+ * - Custom CSS för komponenter
+ * - Keyframe animations
+ * 
+ * Styling approach:
+ * - Tailwind utility classes för majoriteten av styling
+ * - DaisyUI för UI-komponenter (buttons, themes)
+ * - Custom CSS endast när nödvändigt
+ * - CSS-in-JS för dynamiska styles (inline styles)
+ */
+
+/**
+ * Tailwind CSS import
+ * 
+ * @import 'tailwindcss':
+ * - Importerar hela Tailwind CSS framework
+ * - Inkluderar alla utility classes
+ * - Tailwind v4+ syntax (tidigare @tailwind base/components/utilities)
+ * 
+ * Tailwind ger:
+ * - Utility classes för layout: flex, grid, etc.
+ * - Spacing: p-*, m-*, gap-*
+ * - Colors: bg-*, text-*, border-*
+ * - Typography: text-*, font-*
+ * - Responsive: sm:, md:, lg:, xl:
+ * - Och mycket mer...
+ */
 @import 'tailwindcss';
+
+/**
+ * DaisyUI plugin och theme konfiguration
+ * 
+ * @plugin "daisyui":
+ * - Aktiverar DaisyUI plugin för Tailwind
+ * - DaisyUI är ett komponentbibliotek byggt på Tailwind
+ * - Ger färdiga komponenter: buttons, cards, modals, etc.
+ * 
+ * themes: 'synthwave':
+ * - Aktiverar "synthwave" color theme
+ * - Retrowave/cyberpunk färgschema
+ * - Dark theme med neon accenter
+ * - Matchar SavvySheet's neon aesthetic
+ * 
+ * Synthwave theme ger:
+ * - Dark bakgrunder (neutral-900, neutral-950)
+ * - Neon accenter (cyan, pink, purple)
+ * - Färgglada buttons och komponenter
+ * - Matchar data-theme="synthwave" i index.html
+ * 
+ * DaisyUI classes:
+ * - btn, btn-primary, btn-secondary, btn-outline
+ * - card, modal, drawer
+ * - bg-base-100, bg-base-200, bg-base-300
+ */
 @plugin "daisyui" {
   themes: 'synthwave';
 }
 
+/**
+ * Custom font class för Grand Hotel
+ * 
+ * .font-grand-hotel:
+ * - Applicerar Google Font "Grand Hotel"
+ * - Cursive/script font för logotyp och titlar
+ * - Elegant, handskriven stil
+ * - Ger SavvySheet en unik visuell identitet
+ * 
+ * Font laddas från Google Fonts i index.html:
+ * - Preload för bättre prestanda
+ * - Fallback till 'cursive' om font inte laddas
+ * 
+ * Används i:
+ * - HomePage: Huvudtitel "SavvySheet"
+ * - Header: Logo-text "SavvySheet"
+ */
 .font-grand-hotel {
   font-family: 'Grand Hotel', cursive;
 }
 
+/**
+ * Global transition för alla element
+ * 
+ * *:
+ * - Universal selector (alla element)
+ * 
+ * @apply transition-colors:
+ * - Applicerar Tailwind's transition-colors utility
+ * - Smooth color transitions vid hover, state changes
+ * - Duration: 150ms (Tailwind default)
+ * - Timing function: cubic-bezier ease
+ * 
+ * Effekt:
+ * - Buttons får smooth hover-effekter
+ * - Färgändringar animeras mjukt
+ * - Bättre användarupplevelse
+ * 
+ * Performance:
+ * - transition-colors är relativt billig (GPU-accelererad)
+ * - Bättre än all transitions (undviker layout thrashing)
+ */
 * {
   @apply transition-colors;
 }
 
-/* Export sections & buttons */
-
+/**
+ * Export section styling
+ * 
+ * .export-section svg:
+ * - Targetterar alla SVG-element inuti .export-section
+ * - Används för ikoner i export-knappar
+ * 
+ * @apply w-5 h-5:
+ * - Sätter storlek till 5 (1.25rem = 20px)
+ * - Konsekvent icon-storlek
+ * 
+ * Används i:
+ * - ExportButton: DocumentArrowDownIcon, DocumentMagnifyingGlassIcon
+ * - DropDown: ChevronDownIcon, ArrowUpTrayIcon
+ * 
+ * Fördel:
+ * - DRY: Behöver inte upprepa w-5 h-5 på varje ikon
+ * - Konsistens: Alla ikoner i export-section är samma storlek
+ */
 .export-section svg {
   @apply w-5 h-5;
 }
 
+/**
+ * Gradient animation keyframe
+ * 
+ * @keyframes gradientMove:
+ * - Definierar animation för gradient bakgrund
+ * - Används för animerad gradient på upload-området
+ * 
+ * Animation steps:
+ * - 0%: background-position vid 0% 50%
+ * - 50%: background-position vid 100% 50%
+ * - 100%: background-position tillbaka till 0% 50%
+ * 
+ * Effekt:
+ * - Gradient flyttas från vänster till höger och tillbaka
+ * - Loop:ar smooth för kontinuerlig animation
+ * - Skapar "flödande" gradient-effekt
+ * 
+ * Används med:
+ * - background-size: 200% 200% (dubbel bredd för smooth transition)
+ * - animation: gradientMove 3s ease-in-out infinite
+ */
 @keyframes gradientMove {
   0% {
     background-position: 0% 50%;
@@ -29,12 +167,71 @@
   }
 }
 
+/**
+ * Animated gradient bakgrund class
+ * 
+ * .animated-gradient-bg:
+ * - Applicerar animerad gradient bakgrund
+ * - Används på upload-området vid hover/drag
+ * 
+ * background:
+ * - linear-gradient: Cyan (#06f0ff) -> Purple (#4e44fd) -> Cyan
+ * - 270deg: Horisontell gradient (vänster till höger)
+ * - Cyan vid 0% och 100% för smooth loop
+ * 
+ * background-size: 200% 200%:
+ * - Dubbel storlek för att tillåta smooth animation
+ * - Gradient är större än elementet
+ * 
+ * animation: gradientMove 3s ease-in-out infinite:
+ * - gradientMove: Keyframe-animation definierad ovan
+ * - 3s: Duration (3 sekunder per loop)
+ * - ease-in-out: Smooth acceleration/deceleration
+ * - infinite: Loop:ar för evigt
+ * 
+ * Används i:
+ * - UploadFile: Hover och drag states
+ * - Ger visuell feedback när användaren kan droppa fil
+ * 
+ * Visuell effekt:
+ * - Gradient "flödar" från vänster till höger
+ * - Neon färger matchar synthwave theme
+ * - Eye-catching utan att vara distraherande
+ */
 .animated-gradient-bg {
   background: linear-gradient(270deg, #06f0ff 0%, #4e44fd 50%, #06f0ff 100%);
   background-size: 200% 200%;
   animation: gradientMove 3s ease-in-out infinite;
 }
 
+/**
+ * BoxesContainer styling (nu hanteras i komponenten med inline styles)
+ * 
+ * Dessa classes används inte längre aktivt men finns kvar för referens.
+ * BoxesContainer använder nu inline styles för bättre kontroll.
+ * 
+ * .boxes-container:
+ * - absolute inset-0: Fullscreen positioning
+ * - flex flex-col: Vertikal stack av rader
+ * - z-0: Lågt z-index (under allt annat)
+ * 
+ * .boxes-row:
+ * - flex: Horisontell layout för rutor
+ * - flex-1: Lika höjd för alla rader
+ * - width 100%: Full bredd
+ * 
+ * .box:
+ * - flex-1: Lika bredd för alla rutor
+ * - border: Subtil border mellan rutor
+ * - border-radius: Rundade hörn
+ * - opacity: Låg opacity för subtil effekt
+ * - background: Dark slate färg
+ * - transition: Smooth färgändringar
+ * 
+ * .box.active:
+ * - background: Vit (highlightad)
+ * - opacity: Något högre för synlighet
+ */
 .boxes-container {
   position: absolute;
   inset: 0;
@@ -65,7 +262,23 @@
   opacity: 0.14;
 }
 
-/* Spinner animations */
+/**
+ * Spinner animations
+ * 
+ * Dessa keyframes definierar spinner-animationer.
+ * Används av Spinner-komponenten för loading states.
+ */
+
+/**
+ * @keyframes spin-slow:
+ * - Långsam rotation medurs
+ * - 0deg -> 360deg
+ * - Används för yttre spinner-ring
+ * 
+ * Transform rotate:
+ * - Roterar element runt z-axeln
+ * - 360deg = en full rotation
+ */
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
@@ -75,6 +288,16 @@
   }
 }
 
+/**
+ * @keyframes spin-reverse:
+ * - Snabbare rotation moturs
+ * - 360deg -> 0deg (reverse direction)
+ * - Används för inre spinner-ring
+ * 
+ * Reverse rotation:
+ * - Skapar hypnotisk dubbel-rotations-effekt
+ * - Tillsammans med spin-slow ger dynamisk visuell feedback
+ */
 @keyframes spin-reverse {
   from {
     transform: rotate(360deg);
@@ -84,9 +307,42 @@
   }
 }
 
+/**
+ * Animation utility classes
+ * 
+ * Dessa classes applicerar keyframe-animationer.
+ */
+
+/**
+ * .animate-spin-slow:
+ * - Applicerar spin-slow keyframe
+ * - 1.8s: Duration (långsammare än standard spin)
+ * - linear: Konstant hastighet (ingen easing)
+ * - infinite: Loop:ar för evigt
+ * 
+ * Används i:
+ * - Spinner: Yttre ring (cyan/pink)
+ */
 .animate-spin-slow {
   animation: spin-slow 1.8s linear infinite;
 }
+
+/**
+ * .animate-spin-reverse:
+ * - Applicerar spin-reverse keyframe
+ * - 1.5s: Duration (snabbare än spin-slow)
+ * - linear: Konstant hastighet
+ * - infinite: Loop:ar för evigt
+ * 
+ * Används i:
+ * - Spinner: Inre ring (purple/green)
+ * 
+ * Kombinerad effekt:
+ * - Två ringar roterar i motsatta riktningar
+ * - Olika hastigheter skapar dynamisk effekt
+ * - Färgerna blandas visuellt
+ * - Ger intressant loading-feedback
+ */
 .animate-spin-reverse {
   animation: spin-reverse 1.5s linear infinite;
 }

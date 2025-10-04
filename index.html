@@ -1,30 +1,144 @@
 <!doctype html>
+<!--
+  index.html - HTML entry point för SavvySheet-applikationen
+  
+  Detta är den enda HTML-filen i applikationen (Single Page Application).
+  
+  Innehåll:
+  - HTML5 doctype och metadata
+  - SEO och Open Graph tags
+  - Google Font preload för prestanda
+  - Root div där React renderas
+  - Script för GitHub Pages routing
+  
+  React tar över efter initial load och renderar hela UI:et i #root.
+-->
 <html data-theme="synthwave" lang="sv">
+  <!--
+    html tag attributes:
+    - data-theme="synthwave": Aktiverar DaisyUI synthwave theme
+    - lang="sv": Svenska som huvudspråk (för SEO och accessibility)
+  -->
   <head>
+    <!--
+      Character encoding:
+      UTF-8 stöder alla språk och specialtecken
+    -->
     <meta charset="UTF-8" />
 
+    <!--
+      Page title:
+      Visas i browser-tab och bookmarks
+      Viktig för SEO
+    -->
     <title>SavvySheet</title>
+    
+    <!--
+      Favicon:
+      Ikon som visas i browser-tab
+      type="image/svg+xml" för SVG eller PNG
+      Relativ path från public-mappen
+    -->
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
 
+    <!--
+      SEO meta tags:
+      Hjälper sökmotorer att indexera sidan
+    -->
+    
+    <!--
+      Keywords:
+      Sökord för SEO
+      Hjälper användare hitta appen via sökmotorer
+    -->
     <meta name="keywords" content="Excel, Editor, PDF" />
+    
+    <!--
+      Description:
+      Kort beskrivning av appen
+      Visas i sökresultat
+      Viktig för SEO och CTR (click-through rate)
+    -->
     <meta
       name="description"
       content="The best excel-editor in the world! Edit and download your document to PDF."
     />
 
+    <!--
+      Open Graph meta tags:
+      För social media sharing (Facebook, LinkedIn, etc.)
+      Kontrollerar hur sidan visas när länken delas
+    -->
+    
+    <!--
+      OG title:
+      Titel som visas när länken delas
+    -->
     <meta property="og:title" content="SavvySheet" />
+    
+    <!--
+      OG description:
+      Beskrivning som visas när länken delas
+    -->
     <meta property="og:description" content="The best excel-editor in the world!" />
+    
+    <!--
+      OG image:
+      Bild som visas när länken delas
+      Relativ path till logo
+      Bör vara minst 1200x630px för bästa resultat
+    -->
     <meta property="og:image" content="./public/logo.png" />
+    
+    <!--
+      OG URL:
+      Canonical URL för sidan
+      Bör uppdateras till faktisk domain
+    -->
     <meta property="og:url" content="http://example.com/" />
+    
+    <!--
+      OG type:
+      Typ av innehåll (website, article, etc.)
+    -->
     <meta property="og:type" content="website" />
 
+    <!--
+      Viewport meta tag:
+      Kritisk för responsive design
+      width=device-width: Matchar skärmbredden
+      initial-scale=1.0: Ingen zoom vid load
+      Gör sidan mobile-friendly
+    -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!--
+      Google Font preload:
+      Laddar Grand Hotel font för bättre prestanda
+      
+      Preload strategy:
+      1. Preload: Laddar font med högsta prioritet
+      2. as="style": Indikerar att det är en stylesheet
+      3. onload: Konverterar till stylesheet när laddad
+      4. this.rel='stylesheet': Applicerar fonten
+      
+      Fördelar:
+      - Snabbare font-laddning
+      - Undviker FOIT (Flash of Invisible Text)
+      - Bättre Core Web Vitals
+    -->
     <link
       rel="preload"
       href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
+    
+    <!--
+      Noscript fallback:
+      Om JavaScript är disabled, ladda font direkt
+      Säkerställer att font alltid laddas
+    -->
     <noscript>
       <link
         href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap"
@@ -33,17 +147,83 @@
     </noscript>
   </head>
   <body>
+    <!--
+      Root div:
+      Detta är där hela React-applikationen renderas
+      
+      Process:
+      1. Browser laddar HTML
+      2. main.tsx körs
+      3. createRoot(document.getElementById('root'))
+      4. React renderar App-komponenten här
+      5. Hela UI:et ersätter denna tomma div
+    -->
     <div id="root"></div>
+    
+    <!--
+      Main script:
+      Entry point för JavaScript
+      type="module": ES6 modules support
+      src="/src/main.tsx": Vite hanterar TypeScript compilation
+      
+      Vite process:
+      1. Kompilerar TypeScript till JavaScript
+      2. Bundlar alla dependencies
+      3. Tree-shaking för mindre bundle size
+      4. Hot Module Replacement i dev
+      5. Optimerad production build
+    -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+<!--
+  GitHub Pages routing fix:
+  
+  Detta script hanterar client-side routing för GitHub Pages.
+  
+  Problem:
+  - GitHub Pages serverar endast statiska filer
+  - Client-side routes (t.ex. /sheet) ger 404
+  - Eftersom GitHub Pages inte har en server som kan route:a
+  
+  Lösning:
+  - 404.html redirectar till index.html med path i sessionStorage
+  - Detta script läser path från sessionStorage
+  - Använder History API för att återställa rätt route
+  
+  Process:
+  1. Användaren navigerar till /SavvySheet/sheet
+  2. GitHub Pages hittar inte /sheet (404)
+  3. 404.html körs och sparar path i sessionStorage
+  4. 404.html redirectar till index.html
+  5. Detta script läser path från sessionStorage
+  6. History API uppdaterar URL till /SavvySheet/sheet
+  7. React Router tar över och visar rätt sida
+  
+  Kod-förklaring:
+  - Immediately Invoked Function Expression (IIFE)
+  - Körs direkt när scriptet laddas
+  - Kontrollerar sessionStorage.redirect
+  - Om finns: Extrahera path och uppdatera URL
+  - Radera sessionStorage.redirect efter användning
+  - Undvik redirect för base path (/SavvySheet/)
+-->
 <script>
   (function () {
+    // Kontrollera om redirect finns i sessionStorage
     if (sessionStorage.redirect) {
+      // Spara redirect URL
       var redirect = sessionStorage.redirect;
+      
+      // Radera från sessionStorage (används endast en gång)
       delete sessionStorage.redirect;
+      
+      // Extrahera path (ta bort domain)
       var path = redirect.replace(window.location.origin, '');
+      
+      // Undvik redirect för base path
       if (path !== '/SavvySheet/') {
+        // Uppdatera URL utan page reload
         window.history.replaceState(null, '', path);
       }
     }
